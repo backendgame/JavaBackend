@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+</head>
+<body>
+    <header th:fragment="header" class="app-header">
+      <div class="app-header-inner">
+        <div class="app-header-actions start" id="logoWebsite">
+          <img src="/images/logo.svg" alt="logo">
+        </div>
+        <div class="app-header-actions end">
+            <span class="text-black">
+                Pricing
+            </span>
+            <span class="text-black">
+                Download
+            </span>
+            <span class="text-black" id="topUp">
+                Top-up
+            </span>
+            <span class="text-black">
+                Document
+            </span>
+            <span class="text-black header-login-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
+                <g id="surface1">
+                <path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 10 1.25 C 6.269531 1.25 3.082031 3.585938 1.824219 6.875 L 3.179688 6.875 C 3.546875 6.074219 4.054688 5.335938 4.695312 4.695312 C 6.113281 3.28125 7.996094 2.5 10 2.5 C 12.003906 2.5 13.886719 3.28125 15.304688 4.695312 C 16.71875 6.113281 17.5 7.996094 17.5 10 C 17.5 12.003906 16.71875 13.886719 15.304688 15.304688 C 13.886719 16.71875 12.003906 17.5 10 17.5 C 7.996094 17.5 6.113281 16.71875 4.695312 15.304688 C 4.054688 14.664062 3.546875 13.925781 3.179688 13.125 L 1.824219 13.125 C 3.082031 16.414062 6.269531 18.75 10 18.75 C 14.832031 18.75 18.75 14.832031 18.75 10 C 18.75 5.167969 14.832031 1.25 10 1.25 Z M 10 1.25 "/>
+                <path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 8.082031 12.652344 L 8.964844 13.535156 L 12.5 10 L 8.964844 6.464844 L 8.082031 7.347656 L 10.105469 9.375 L 1.25 9.375 L 1.25 10.625 L 10.105469 10.625 Z M 8.082031 12.652344 "/>
+                </g>
+              </svg>
+              Login
+            </span>
+            <div class=" header-account-btn ui dropdown link item v-dropdown floating labeled button" style="border: 1px solid #6c757d !important;padding: 10px !important;">
+              <span class="text">Ngo Huu Van - <span id="balance">$5000</span></span>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div id="accountLink" class="item">Account</div>
+                <div id="logOut" class="item">Logout</div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </header>
+</body>
+</html>

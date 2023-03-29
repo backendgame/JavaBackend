@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+</head>
+<body>
+  <aside th:fragment="leftbar-aside" class="app-sidebar">
+    <div class="cards-wrapper">
+      <div class="card" id="Home">
+        <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.8 0.649998C8.5111 0.116668 9.4889 0.116668 10.2 0.649998L17.2 5.9C17.7036 6.27771 18 6.87049 18 7.5V17C18 18.1046 17.1046 19 16 19H11.1C10.4925 19 10 18.5075 10 17.9V12C10 11.4477 9.5523 11 9 11C8.4477 11 8 11.4477 8 12V17.9C8 18.5075 7.5075 19 6.9 19H2C0.89543 19 0 18.1046 0 17V7.5C0 6.87049 0.29639 6.27771 0.8 5.9L7.8 0.649998ZM9 2.25L2 7.5V17H6V12C6 10.3431 7.3431 9 9 9C10.6569 9 12 10.3431 12 12V17H16V7.5L9 2.25Z" fill="#3D4154"/>
+        </svg>
+        <span class="ml-2"> Home </span>
+      </div>
+    </div>
+    <div class="card-table cards-wrapper tree-toggle" id="DatabasesTree">
+      <div class="card d-flex justify-content-between" id="DatabasesTreeBtn" style="width: 100%">
+        <div>
+          <svg width="20" height="18" viewBox="0 0 20 18"
+               fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C13.1046 0 14 0.89543 14 2V5H18C19.1046 5 20 5.89543 20 7V16C20 17.1046 19.1046 18 18 18H2C0.89543 18 0 17.1046 0 16V10C0 8.8954 0.89543 8 2 8H6V2C6 0.89543 6.89543 0 8 0H12ZM12 2H8V16H12V2ZM18 7H14V16H18V7ZM6 10H2V16H6V10Z" fill="#3D4154"/>
+          </svg>
+          <span class="ml-2"> Databases </span>
+        </div>
+        <svg width="18" style="transform: rotate(0deg)"
+             id="vToggleMenu"
+             height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1401 9.03079C17.2866 8.88434 17.2866 8.64691 17.1401 8.50046L9.66286 1.02321C9.29674 0.657096 8.70315 0.657098 8.33703 1.02321L0.859798 8.50045C0.713352 8.6469 0.713352 8.88434 0.859798 9.03078C1.00624 9.17723 1.24368 9.17723 1.39013 9.03078L8.86736 1.55354C8.94059 1.48032 9.0593 1.48032 9.13253 1.55354L16.6098 9.03079C16.7562 9.17724 16.9937 9.17724 17.1401 9.03079Z" fill="black"/>
+        </svg>
+      </div>
+      <ul class="v-card-ul tree" style="max-height: 200px; overflow: auto">
+      </ul>
+    </div>
+    <div class="card-table cards-wrapper">
+        <div class="card" id="TilesPage">
+            <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 3C0 1.34315 1.34315 0 3 0H13C14.6569 0 16 1.34315 16 3V19C16 19.3844 15.7797 19.7348 15.4332 19.9013C15.0867 20.0678 14.6755 20.021 14.3753 19.7809L12.5 18.2806L10.6247 19.7809C10.2268 20.0992 9.6532 20.0674 9.2929 19.7071L8 18.4142L6.7071 19.7071C6.3468 20.0674 5.7732 20.0992 5.37531 19.7809L3.5 18.2806L1.6247 19.7809C1.32453 20.021 0.91328 20.0678 0.56681 19.9013C0.22035 19.7348 0 19.3844 0 19V3ZM3 2C2.44772 2 2 2.44772 2 3V16.9194L2.8753 16.2191C3.24052 15.927 3.75948 15.927 4.12469 16.2191L5.92578 17.66L7.2929 16.2929C7.6834 15.9024 8.3166 15.9024 8.7071 16.2929L10.0742 17.66L11.8753 16.2191C12.2405 15.927 12.7595 15.927 13.1247 16.2191L14 16.9194V3C14 2.44772 13.5523 2 13 2H3ZM4 7C4 6.44772 4.44772 6 5 6H11C11.5523 6 12 6.44772 12 7C12 7.55228 11.5523 8 11 8H5C4.44772 8 4 7.55228 4 7ZM5 10C4.44772 10 4 10.4477 4 11C4 11.5523 4.44772 12 5 12H8C8.5523 12 9 11.5523 9 11C9 10.4477 8.5523 10 8 10H5Z" fill="#3D4154"/>
+            </svg>
+            <span class="ml-2"> Tiles </span>
+        </div>
+    </div>
+    <div class="card-table cards-wrapper">
+      <div class="card">
+        <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M0 3C0 1.34315 1.34315 0 3 0H13C14.6569 0 16 1.34315 16 3V19C16 19.3844 15.7797 19.7348 15.4332 19.9013C15.0867 20.0678 14.6755 20.021 14.3753 19.7809L12.5 18.2806L10.6247 19.7809C10.2268 20.0992 9.6532 20.0674 9.2929 19.7071L8 18.4142L6.7071 19.7071C6.3468 20.0674 5.7732 20.0992 5.37531 19.7809L3.5 18.2806L1.6247 19.7809C1.32453 20.021 0.91328 20.0678 0.56681 19.9013C0.22035 19.7348 0 19.3844 0 19V3ZM3 2C2.44772 2 2 2.44772 2 3V16.9194L2.8753 16.2191C3.24052 15.927 3.75948 15.927 4.12469 16.2191L5.92578 17.66L7.2929 16.2929C7.6834 15.9024 8.3166 15.9024 8.7071 16.2929L10.0742 17.66L11.8753 16.2191C12.2405 15.927 12.7595 15.927 13.1247 16.2191L14 16.9194V3C14 2.44772 13.5523 2 13 2H3ZM4 7C4 6.44772 4.44772 6 5 6H11C11.5523 6 12 6.44772 12 7C12 7.55228 11.5523 8 11 8H5C4.44772 8 4 7.55228 4 7ZM5 10C4.44772 10 4 10.4477 4 11C4 11.5523 4.44772 12 5 12H8C8.5523 12 9 11.5523 9 11C9 10.4477 8.5523 10 8 10H5Z" fill="#3D4154"/>
+        </svg>
+        <span class="ml-2"> Billing </span>
+      </div>
+    </div>
+    <div class="card-table cards-wrapper">
+      <div class="card">
+        <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.5858 0C10.1162 0 10.6249 0.21071 11 0.58579L15.4142 5C15.7893 5.37507 16 5.88378 16 6.41421V18C16 19.1046 15.1046 20 14 20H2C0.89543 20 0 19.1046 0 18V2C0 0.89543 0.89543 0 2 0H9.5858ZM8 2H2V18H14V8H9.5C8.6716 8 8 7.32843 8 6.5V2ZM7.99 12C8.5478 12 9 12.4522 9 13.01V14.1338C9.2989 14.3067 9.5 14.6299 9.5 15C9.5 15.5523 9.0523 16 8.5 16H8.01C7.4522 16 7 15.5478 7 14.99V14C6.4477 14 6 13.5523 6 13C6 12.4477 6.4477 12 7 12H7.99ZM8 9C8.5523 9 9 9.4477 9 10C9 10.5523 8.5523 11 8 11C7.4477 11 7 10.5523 7 10C7 9.4477 7.4477 9 8 9ZM10 2.41421V6H13.5858L10 2.41421Z" fill="#3D4154"/>
+        </svg>
+        <span class="ml-2">
+                          Referral Program
+                      </span>
+      </div>
+    </div>
+  </aside>
+  <button th:fragment="leftbar-btn" type="button" class="sidebar-toggle-outer icon">
+    <div mode="out-in" name="fade">
+              <span class="material-symbols-outlined">
+                 <svg id="BackIcon" width="24" height="24" viewBox="0 0 24 24">
+                     <path id="BackIconPath" data-name="Path 81" d="M9,0,4.5,4.5,0,0" transform="translate(14.25 7.5) rotate(90)" fill="none" stroke="white" stroke-linejoin="round" stroke-width="2">
+                     </path>
+                 </svg>
+              </span>
+    </div>
+  </button>
+</body>
+</html>

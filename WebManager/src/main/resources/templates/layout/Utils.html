@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+</head>
+<body>
+  <div th:fragment="loading-bar">
+		<div class="loading">
+        <div class="ui active dimmer">
+          <div class="ui text loader" id="loadingCancel">Loading</div>
+        </div>
+    </div>
+	</div>
+
+  <div th:fragment="forbidden-page" id="forbidden-page">
+    <h3>403</h3>
+    <p>You do not have permission to view this page !</p>
+    <button id="returnHomePageId" type="button" class="btn btn-outline-light">RETURN TO HOME PAGE</button>
+  </div>
+
+  <div class="modal" th:fragment="modal">
+    <div class="modalWrapper-content">
+      <div class="modalWrapper-header">
+        <span class="vModalClose vModalClose-style">&times;</span>
+        <h3 class="modal-header-content"></h3>
+      </div>
+      <hr/>
+      <div class="modalWrapper-body">
+      </div>
+      <hr/>
+      <div class="modalWrapper-footer">
+      </div>
+    </div>
+  </div>
+</body>

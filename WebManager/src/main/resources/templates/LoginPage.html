@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Website Title - Login</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Van">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/5d7c643aa1.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <script src="/js/login.js" type="module"></script>
+    <link rel="stylesheet" href="/css/global_styles.css">
+    <script src="https://unpkg.com/polipop@1.0.0/dist/polipop.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/polipop@1.0.0/dist/css/polipop.core.min.css"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/polipop@1.0.0/dist/css/polipop.default.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    <div class="v-container">
+        <div class="row v-login-full-w">
+                <div>
+                    <div class="v-login-form">
+                        <h1>
+                            Login
+                        </h1>
+                        <form name="login" class="form" id="loginForm">
+                            <div class="v-input-group" id="inputUserName">
+                                <label htmlFor="validationRegisterEmail">Email Address</label>
+                                <input type="email" class="form-control" name="email"
+                                       aria-describedby="validationRegisterEmail" required placeholder="Email Address">
+                                <div id="validationRegisterEmail" class="invalid-feedback">
+                                </div>
+                            </div>
+                            <div class="v-input-group v-input-group-pwd" id="inputPassword">
+                                <label htmlFor="validationRegisterPwd">Password</label>
+                                <div class="v-input-pwd">
+                                    <input type="password" class="form-control" name="password"
+                                           aria-describedby="validationRegisterPwd" required placeholder="Password">
+                                    <i class="v-toggle-password fas fa-eye-slash"></i>
+                                </div>
+                                <div id="validationRegisterPwd" class="invalid-feedback">
+                                </div>
+                            </div>
+                            <div class="input-control-checkbox v-input-group custom-control custom-checkbox">
+                                <input checked type="checkbox" class="custom-control-input" name="rememberCheckbox" id="customCheck1">
+                                <label class="text-normal custom-control-label" for="customCheck1">Remember this account</label>
+                            </div>
+                            <div class="v-input-group d-flex justify-content-between">
+                                <a href="/reset-password" class="text text-links">Forgot Password</a>
+                            </div>
+                            <div class="v-input-action">
+                                <button type="button" id="loginBtn" class="px-4 btn btn-orange">Login</button>
+                            </div>
+                            <div class="v-input-group d-flex">
+                                <span id="v-dont-have-acc">Do not have an account ? </span>
+                                <p class="text text-normal m-0">
+                                    <span>
+                                        <a href="/register" class="text text-links ml-1">Create for free</a>
+                                    </span>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="v-login-img">
+                    <img src="/images/login_image.png" alt="Login image">
+                </div>
+        </div>
+    </div>
+</body>
+</html>
