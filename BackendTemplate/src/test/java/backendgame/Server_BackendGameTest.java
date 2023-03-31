@@ -5,6 +5,10 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.api.Test;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+
 class Server_BackendGameTest {
 
 	public static String stringToArray(String str) {
@@ -13,7 +17,6 @@ class Server_BackendGameTest {
 		for(int i=1;i<data.length;i++)
 			result = result + "," + data[i];
 		return "new String(new byte[] {"+result+"});";
-//		return "new String(new byte[] {108,105,99,101,110,99,101,46,98,97,99,107,101,110,100,103,97,109,101,46,99,111,109});";
 	}
 	
 	public static final String getName() {
@@ -29,24 +32,25 @@ class Server_BackendGameTest {
 	}
 	
 	@Test void test() {
-		String s = "licence.backendgame.com";
-//		byte[] data = s.getBytes();
-//		
-//		System.out.print("[");
-//		for(int i=0;i<data.length;i++)
-//			System.out.print(data[i]+",");
-//		System.out.println("]");
-//		
-//		String str = new String(new byte[] {108,105,99,101,110,99,101,46,98,97,99,107,101,110,100,103,97,109,101,46,99,111,109});
-//		System.out.println(str);
-		
-//		System.out.println(stringToArray(s));
-//		String aaa = new String(new byte[] {108,105,99,101,110,99,101,46,98,97,99,107,101,110,100,103,97,109,101,46,99,111,109});
-//		System.out.println(aaa);
-		
-		for(int i=0;i<100;i++)
-			System.out.println(getName());
-		
+		long l = System.currentTimeMillis();
+		new ClientOneHit("192.168.1.14",1989) {
+			
+			@Override
+			public void onReceiveMessage(MessageReceiving arg0) {
+				for(int i=0;i<1000;i++)
+					System.out.println(arg0.readString());
+				System.out.println(arg0.readLong());
+			}
+			
+			@Override
+			public MessageSending doSendMessage() {
+				MessageSending messageSending=new MessageSending((short) 1122);
+				messageSending.writeInt(123789);
+				messageSending.writeString("Dương Đức Trí");
+				return messageSending;
+			}
+		}.run();
+		System.out.println("Finish : "+(System.currentTimeMillis()-l));
 	}
 
 }

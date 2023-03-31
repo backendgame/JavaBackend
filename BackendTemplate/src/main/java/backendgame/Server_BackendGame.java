@@ -23,7 +23,7 @@ public class Server_BackendGame {
 		
 		serverOnehit = new ServerBackendGame_EncryptingOnehit("Onehit", "GameServer", 1989);
 		BaseOnehit_AiO.setup();
-		serverOnehit.set_OnehitProcessing_NotFound(new ILogOnehit_CMD_NotExist() {
+		serverOnehit.set_CMD_NotFound(new ILogOnehit_CMD_NotExist() {
 			@Override public void showLog(Socket _socket, short _CMD, int lengthReceive) {
 				String strCMD = "CMD("+_CMD+")";
 				Field[] fields=CMD_ONEHIT.class.getFields();
