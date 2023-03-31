@@ -2,9 +2,9 @@ package backendgame.onehit.web.table;
 
 import java.io.IOException;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.table.DBGameTable_UserData;
 
 public class Onehit_Table157_Config_TokenLifeTime extends BaseOnehitTable_Validate_TableInfo {

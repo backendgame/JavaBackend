@@ -1,9 +1,9 @@
 package backendgame.onehit.web.table.sub.leaderboard;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.config.CaseCheck;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.BaseTableData;
 import database.table.DBString;
 import database.table.sub.DBGameTable_Leaderboard;

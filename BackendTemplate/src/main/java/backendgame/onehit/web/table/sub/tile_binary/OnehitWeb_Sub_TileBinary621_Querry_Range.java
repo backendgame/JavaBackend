@@ -1,7 +1,7 @@
 package backendgame.onehit.web.table.sub.tile_binary;
 
+import backendgame.com.core.MessageReceiving;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
 import database.table.DBString;
 import database.table.sub.DBGameTable_TileBinary;
 

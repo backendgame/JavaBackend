@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import backendgame.Server_BackendGame;
+import backendgame.com.core.IActionOnehit;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.OneHitProcessing;
 import backendgame.config.CaseCheck;
 import backendgame.config.CipherBinary;
 import backendgame.config.RichardToken;
@@ -62,9 +65,6 @@ import backendgame.onehit.web.table.sub.tile_row.OnehitWeb_Sub_TileRow750_Data_I
 import backendgame.onehit.web.table.sub.tile_row.OnehitWeb_Sub_TileRow780_Data_Update;
 import backendgame.onehit.web.test.OnehitWeb_TableRow_Random_Account;
 import backendgame.onehit.web.test.OnehitWeb_Test_Table_TimeAvaiable;
-import bgcore.core.IActionOnehit;
-import bgcore.core.MessageSending;
-import bgcore.core.OneHitProcessing;
 import database.Manager_DBGameTable;
 import database.operators.BB_Operators_Binary;
 import database.operators.BB_Operators_Boolean;

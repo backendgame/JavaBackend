@@ -2,9 +2,9 @@ package backendgame.onehit.web.table.sub.leaderboard;
 
 import java.io.IOException;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.DataType;
 import database.table.DBString;
 import database.table.sub.DBGameTable_Leaderboard;

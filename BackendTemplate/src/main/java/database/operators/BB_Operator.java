@@ -2,8 +2,8 @@ package database.operators;
 
 import java.io.IOException;
 
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import database.DataType;
 import database.DescribeTable;
 

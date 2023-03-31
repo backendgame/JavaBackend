@@ -2,7 +2,7 @@ package database.table.sub;
 
 import java.io.IOException;
 
-import bgcore.core.MessageSending;
+import backendgame.com.core.MessageSending;
 import database.BaseTableData;
 import database.DescribeTable;
 import database.SubTable;

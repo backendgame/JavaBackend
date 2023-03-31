@@ -1,11 +1,11 @@
 package backendgame.onehit.web.table.account_data;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.config.CaseCheck;
 import backendgame.onehit.BaseOnehit_AiO;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
-import bgcore.core.server.BaseBackEnd_Session;
 import database.DescribeTable;
 import database.table.DBGameTable_AccountLogin;
 import database.table.DBGameTable_UserData;

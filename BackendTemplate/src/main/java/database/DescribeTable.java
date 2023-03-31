@@ -3,8 +3,8 @@ package database;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import database.table.DBString;
 
 public class DescribeTable {//==>29

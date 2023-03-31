@@ -1,7 +1,7 @@
 package backendgame.onehit.web.table.sub.leaderboard;
 
+import backendgame.com.core.MessageReceiving;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
 import database.table.sub.DBGameTable_Leaderboard;
 
 public class OnehitWeb_Leaderboard421_FullQuerry_Index extends BaseOnehit_Leaderboard_FullQuerry {

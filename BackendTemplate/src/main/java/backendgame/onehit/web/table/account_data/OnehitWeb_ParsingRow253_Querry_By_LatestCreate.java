@@ -1,7 +1,7 @@
 package backendgame.onehit.web.table.account_data;
 
+import backendgame.com.core.MessageReceiving;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
 import database.table.DBGameTable_AccountLogin;
 import database.table.DBGameTable_UserData;
 import database.table.DBString;

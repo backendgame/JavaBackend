@@ -1,10 +1,10 @@
 package backendgame.onehit.web.table.account_data;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.onehit.BaseOnehitWeb;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.table.DBGameTable_AccountLogin;
 import database.table.DBGameTable_UserData;
 import database.table.DBString;

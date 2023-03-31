@@ -3,14 +3,14 @@ package backendgame.onehit.web.table;
 import java.io.File;
 import java.io.IOException;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.OneHitProcessing;
+import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.config.CaseCheck;
 import backendgame.config.PATH;
 import backendgame.onehit.BaseOnehit_AiO;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
-import bgcore.core.OneHitProcessing;
-import bgcore.core.server.BaseBackEnd_Session;
 import database.table.DBGameTable_UserData;
 
 public abstract class BaseOnehitTable_Validate_TableInfo extends BaseOnehit_AiO {

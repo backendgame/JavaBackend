@@ -1,8 +1,8 @@
 package backendgame.onehit.web.table.sub.tile_row;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.table.DBString;
 import database.table.sub.DBGameTable_TileRow;
 

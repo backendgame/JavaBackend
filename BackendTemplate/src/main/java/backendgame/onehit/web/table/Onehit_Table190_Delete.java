@@ -2,13 +2,13 @@ package backendgame.onehit.web.table;
 
 import java.io.File;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.config.PATH;
 import backendgame.onehit.BaseOnehit_AiO;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
-import bgcore.core.server.BaseBackEnd_Session;
 
 public class Onehit_Table190_Delete extends BaseOnehit_AiO {
 

@@ -1,10 +1,10 @@
 package backendgame.onehit;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.OneHitProcessing;
+import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.config.CaseCheck;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
-import bgcore.core.OneHitProcessing;
-import bgcore.core.server.BaseBackEnd_Session;
 import database.table.DBGameTable_AccountLogin;
 import database.table.DBGameTable_UserData;
 import database.table.DBString;

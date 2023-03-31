@@ -6,11 +6,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.amazonaws.util.StringUtils;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.onehit.BaseOnehitWeb;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.DatabaseId;
 import database.table.DBGameTable_AccountLogin;
 import database.table.DBGameTable_UserData;

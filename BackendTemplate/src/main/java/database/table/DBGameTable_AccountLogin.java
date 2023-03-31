@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.OneHitProcessing;
 import backendgame.config.PATH;
-import bgcore.core.MessageSending;
-import bgcore.core.OneHitProcessing;
 import database.DatabaseId;
 import database.Manager_DBGameTable;
 

@@ -1,7 +1,7 @@
 package backendgame.onehit.web.table.sub.leaderboard;
 
+import backendgame.com.core.MessageReceiving;
 import backendgame.config.CMD_ONEHIT;
-import bgcore.core.MessageReceiving;
 import database.table.sub.DBGameTable_Leaderboard;
 
 public class OnehitWeb_Leaderboard422_FullQuerry_Range extends BaseOnehit_Leaderboard_FullQuerry {

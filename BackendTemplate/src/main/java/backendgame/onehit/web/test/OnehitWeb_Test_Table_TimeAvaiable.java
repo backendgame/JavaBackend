@@ -3,15 +3,15 @@ package backendgame.onehit.web.test;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.OneHitProcessing;
+import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.config.CaseCheck;
 import backendgame.config.PATH;
 import backendgame.config.TIME;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
-import bgcore.core.OneHitProcessing;
-import bgcore.core.server.BaseBackEnd_Session;
 import database.BaseTableData;
 import database.table.DBGameTable_UserData;
 

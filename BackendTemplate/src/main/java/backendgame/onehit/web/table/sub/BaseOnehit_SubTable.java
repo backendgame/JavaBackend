@@ -3,13 +3,13 @@ package backendgame.onehit.web.table.sub;
 import java.io.File;
 import java.io.IOException;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.config.CaseCheck;
 import backendgame.config.PATH;
 import backendgame.onehit.BaseOnehit_AiO;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
-import bgcore.core.server.BaseBackEnd_Session;
 import database.BaseTableData;
 import database.SubTable;
 

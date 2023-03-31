@@ -3,14 +3,14 @@ package backendgame;
 import java.lang.reflect.Field;
 import java.net.Socket;
 
+import backendgame.com.core.OneHitProcessing;
+import backendgame.com.core.ThreadPool;
+import backendgame.com.core.TimeManager;
+import backendgame.com.core.log.ILogOnehit_CMD_NotExist;
+import backendgame.com.core.log.ILogOnehit_OnMessage;
+import backendgame.com.core.server.ServerBackendGame_EncryptingOnehit;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.onehit.BaseOnehit_AiO;
-import bgcore.core.OneHitProcessing;
-import bgcore.core.ThreadPool;
-import bgcore.core.TimeManager;
-import bgcore.core.log.ILogOnehit_CMD_NotExist;
-import bgcore.core.log.ILogOnehit_OnMessage;
-import bgcore.core.server.ServerBackendGame_EncryptingOnehit;
 
 public class Server_BackendGame {
 	public static ServerBackendGame_EncryptingOnehit serverOnehit;

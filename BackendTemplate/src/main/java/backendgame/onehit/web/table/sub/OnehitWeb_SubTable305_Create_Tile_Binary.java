@@ -3,12 +3,12 @@ package backendgame.onehit.web.table.sub;
 import java.io.File;
 import java.io.RandomAccessFile;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 import backendgame.config.CMD_ONEHIT;
 import backendgame.config.CaseCheck;
 import backendgame.onehit.BaseOnehitWeb;
 import backendgame.onehit.BinaryToken;
-import bgcore.core.MessageReceiving;
-import bgcore.core.MessageSending;
 import database.BaseTableData;
 import database.SubTable;
 import database.table.DBGameTable_AccountLogin;
