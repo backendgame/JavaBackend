@@ -5,9 +5,9 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import backendgame.com.core.MessageReceiving;
 import gameonline.rest.SystemConstant;
 import gameonline.rest.database.model.DatabaseId;
-import richard.MessageReceiving;
 
 public class AccountDTO {
 	public byte databaseId;

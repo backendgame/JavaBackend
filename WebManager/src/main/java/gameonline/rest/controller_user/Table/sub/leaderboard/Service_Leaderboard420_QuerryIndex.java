@@ -6,15 +6,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
 import gameonline.rest.database.model.DataType;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_Leaderboard420_QuerryIndex extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -80,8 +80,8 @@ public class Service_Leaderboard420_QuerryIndex extends BaseAuthorization{
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Leaderboard_Querry_Id);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
-				messageSending.writeshort(subTableID);
+				messageSending.writeShort(tableId);
+				messageSending.writeShort(subTableID);
 				
 				return messageSending;
 			}

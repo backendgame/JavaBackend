@@ -1,4 +1,4 @@
-package richard;
+package gameonline.config;
 /** writer : richard */
 
 public class CaseCheck {
@@ -51,7 +51,6 @@ public class CaseCheck {
 
 	public static final byte NOT_ENOUGHT					=-20;
 
-	public static final byte SUSPEND						=-18;
 	public static final byte EXCEPTION						=-17;
 	public static final byte VALUE_SAME						=-16;
 	public static final byte VALUE_POSITIVE					=-15;
@@ -167,7 +166,6 @@ public class CaseCheck {
 			case -23: return "PASSWORD_ERROR(-23)";
 			case -22: return "SESSION_NOT_EXIST(-22)";
 			case -20: return "NOT_ENOUGHT(-20)";
-			case -18: return "SUSPEND(-18)";
 			case -17: return "EXCEPTION(-17)";
 			case -16: return "VALUE_SAME(-16)";
 			case -15: return "VALUE_POSITIVE(-15)";

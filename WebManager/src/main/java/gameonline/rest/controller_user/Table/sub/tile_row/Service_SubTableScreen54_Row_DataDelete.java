@@ -4,9 +4,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageSending;
 import gameonline.rest.controller_user.Table.sub.BaseService_SubTable_Data;
 import gameonline.rest.database.model.DataType;
-import richard.MessageSending;
 
 public class Service_SubTableScreen54_Row_DataDelete extends BaseService_SubTable_Data{
 	@NotNull @Positive public short regionId;

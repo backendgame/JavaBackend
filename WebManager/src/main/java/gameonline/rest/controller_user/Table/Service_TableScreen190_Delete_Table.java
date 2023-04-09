@@ -5,13 +5,13 @@ import javax.validation.constraints.Positive;
 
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
 import dynamodb.TableDynamoDB_UserData;
+import gameonline.config.CMD_ONEHIT;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
-import richard.CMD_ONEHIT;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_TableScreen190_Delete_Table extends BaseAuthorization{
 	@NotNull @Positive public short tableId;
@@ -25,7 +25,7 @@ public class Service_TableScreen190_Delete_Table extends BaseAuthorization{
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Table_Delete);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
+				messageSending.writeShort(tableId);
 				return messageSending;
 			}
 		}.runThread();

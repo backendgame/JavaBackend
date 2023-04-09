@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import com.google.gson.GsonBuilder;
 
+import backendgame.com.core.MessageReceiving;
 import gameonline.rest.SystemConstant;
 import gameonline.rest.database.model.DescribeTable;
-import richard.MessageReceiving;
 
 public class DatabaseInfoDTO {
 	public long AvaiableTime;

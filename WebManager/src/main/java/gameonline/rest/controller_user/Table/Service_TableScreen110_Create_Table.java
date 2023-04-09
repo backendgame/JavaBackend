@@ -12,16 +12,16 @@ import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
 import dynamodb.TableDynamoDB_UserData;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
 import gameonline.rest.database.model.DescribeTable;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 /*
  {
@@ -111,10 +111,10 @@ public class Service_TableScreen110_Create_Table extends BaseAuthorization{
 				messageSending.writeString(token);
 				
 				if(describeTables==null) {
-					messageSending.writeshort((short) 0);
+					messageSending.writeShort((short) 0);
 				}else {
 					short numberDescribeTables = (short) describeTables.length;
-					messageSending.writeshort(numberDescribeTables);
+					messageSending.writeShort(numberDescribeTables);
 					for(short i=0;i<numberDescribeTables;i++) 
 						describeTables[i].writeMessage(messageSending);
 				}

@@ -8,16 +8,16 @@ import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.OneHitProcessing;
 import backendgame.com.core.server.BaseBackEnd_Session;
-import backendgame.config.CMD_ONEHIT;
-import backendgame.config.CaseCheck;
-import backendgame.config.PATH;
+import backendgame.com.database.DBString;
+import backendgame.com.database.entity.DBDescribe;
 import backendgame.config.TIME;
-import backendgame.onehit.BaseOnehit_AiO;
-import backendgame.onehit.BinaryToken;
-import database.DescribeTable;
+import begame.config.CMD_ONEHIT;
+import begame.config.CaseCheck;
+import begame.config.PATH;
+import begame.onehit.BaseOnehit_AiO;
+import begame.onehit.BinaryToken;
 import database.SubTable;
-import database.table.DBGameTable_UserData;
-import database.table.DBString;
+import database_game.table.DBGameTable_UserData;
 
 public class Onehit_Table120_GetInfo extends BaseOnehit_AiO {
 
@@ -62,12 +62,12 @@ public class Onehit_Table120_GetInfo extends BaseOnehit_AiO {
 			messageSending.writeString(rf.readUTF());//Password
 		}
 		
-		DescribeTable[] listDescribeTables=databaseUserData.getDescribeTables(dbString);
+		DBDescribe[] listDescribeTables=databaseUserData.getDescribeTables(dbString);
 		if(listDescribeTables==null)
 			messageSending.writeShort((short) 0);
 		else {
 			messageSending.writeShort((short) listDescribeTables.length);
-			for(DescribeTable describeTable:listDescribeTables) {
+			for(DBDescribe describeTable:listDescribeTables) {
 				describeTable.writeMessage(messageSending);
 //				describeTable.trace("");
 			}

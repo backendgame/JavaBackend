@@ -6,14 +6,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.database.model.DataType;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_SubTableScreen47_List_DataUpdate extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -29,8 +29,8 @@ public class Service_SubTableScreen47_List_DataUpdate extends BaseAuthorization{
 	@Override public MyRespone respone() {
 		final MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_SubTileBinary_Data_Update);
 		messageSending.writeString(token);
-		messageSending.writeshort(tableId);
-		messageSending.writeshort(subTableID);
+		messageSending.writeShort(tableId);
+		messageSending.writeShort(subTableID);
 		
 		messageSending.writeLong(nodeIndex);
 		messageSending.writeByte(dataType);
@@ -44,7 +44,7 @@ public class Service_SubTableScreen47_List_DataUpdate extends BaseAuthorization{
 				break;
 
 			case DataType.SHORT:
-				messageSending.writeshort(Short.parseShort(value));
+				messageSending.writeShort(Short.parseShort(value));
 				break;
 				
 			case DataType.INTEGER:
@@ -72,8 +72,8 @@ public class Service_SubTableScreen47_List_DataUpdate extends BaseAuthorization{
 				
 			case DataType.LIST:
 			case DataType.BINARY:
-				messageSending.writeshort(size);
-				messageSending.writeCopyData(Base64.getDecoder().decode(value));
+				messageSending.writeShort(size);
+				messageSending.writeSpecialArray_WithoutLength(Base64.getDecoder().decode(value));
 				break;
 			default:return resInvalid;
 		}

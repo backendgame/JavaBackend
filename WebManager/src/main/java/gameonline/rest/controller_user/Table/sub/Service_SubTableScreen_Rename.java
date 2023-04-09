@@ -11,7 +11,6 @@ import dynamodb.TableDynamoDB_UserData;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.Lib;
 
 public class Service_SubTableScreen_Rename extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -39,7 +38,7 @@ public class Service_SubTableScreen_Rename extends BaseAuthorization{
 					));
 			return resSuccess;
 		}catch (Exception e) {
-			return new MyRespone(MyRespone.STATUS_Exception, Lib.getStringException(e));
+			return new MyRespone(MyRespone.STATUS_Exception, getStringException(e));
 		}
 	}
 }

@@ -9,6 +9,12 @@ import javax.validation.constraints.PositiveOrZero;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.TimeManager;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.BinaryToken;
 import gameonline.rest.MyRespone;
@@ -16,12 +22,6 @@ import gameonline.rest.SystemConstant;
 import gameonline.rest.database.model.DataType;
 import gameonline.rest.database.model.DatabaseId;
 import gameonline.rest.database.model.DescribeTable;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
-import richard.TimeManager;
 
 public class Service_TableRowScreen299_Insert_Account extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -95,11 +95,11 @@ public class Service_TableRowScreen299_Insert_Account extends BaseAuthorization{
 								
 								case DataType.BINARY:
 									short arrLength = messageReceiving.readShort();
-									mapData.put(listDescribeTables[i].ColumnName, messageReceiving.readArrayByte(arrLength));
+									mapData.put(listDescribeTables[i].ColumnName, messageReceiving.readByteArray(arrLength));
 									break;
 								case DataType.LIST:
 									short arrLength2 = messageReceiving.readShort();
-									mapData.put(listDescribeTables[i].ColumnName, messageReceiving.readArrayByte(arrLength2));
+									mapData.put(listDescribeTables[i].ColumnName, messageReceiving.readByteArray(arrLength2));
 									break;
 
 								default:System.err.println("DataType not Exist");break;
@@ -128,7 +128,7 @@ public class Service_TableRowScreen299_Insert_Account extends BaseAuthorization{
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Row_Insert_Account);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
+				messageSending.writeShort(tableId);
 				
 				messageSending.writeByte((byte) databaseId);
 				messageSending.writeString(credential);

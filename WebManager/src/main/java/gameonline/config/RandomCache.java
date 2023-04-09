@@ -1,4 +1,4 @@
-package richard;
+package gameonline.config;
 
 import java.util.ArrayList;
 import java.util.Random;

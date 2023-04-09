@@ -6,13 +6,13 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_TableScreen159_Config_MailService extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -38,7 +38,7 @@ public class Service_TableScreen159_Config_MailService extends BaseAuthorization
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Table_Config_MailService);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
+				messageSending.writeShort(tableId);
 				
 				Set<String> listKey = listEmail.keySet();
 				messageSending.writeByte((byte) listKey.size());

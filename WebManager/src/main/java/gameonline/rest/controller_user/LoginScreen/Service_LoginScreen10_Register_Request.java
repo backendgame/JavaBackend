@@ -15,7 +15,6 @@ import gameonline.config.Config;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.Lib;
 
 public class Service_LoginScreen10_Register_Request extends BaseVariable {
 	@Email
@@ -41,7 +40,7 @@ public class Service_LoginScreen10_Register_Request extends BaseVariable {
 			
 			threadPool.runThread(new Runnable() {
 				public void run() {
-					Lib.sendEmail(Config.Gmail_Send, Config.Gmail_AppPassword, email, "VerifyCode (avaiable 60s)", "VerifyCode : "+verifyCode);
+					Config.sendEmail(Config.Gmail_Send, Config.Gmail_AppPassword, email, "VerifyCode (avaiable 60s)", "VerifyCode : "+verifyCode);
 //					System.out.println("Gởi mail("+email+") : VerifyCode("+verifyCode+")");
 				}
 			});

@@ -6,14 +6,14 @@ import javax.validation.constraints.Positive;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_TableScreen151_Config_AccessToken extends BaseAuthorization{
 	@NotNull public String accessToken;
@@ -44,7 +44,7 @@ public class Service_TableScreen151_Config_AccessToken extends BaseAuthorization
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Table_Config_AccessKey);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
+				messageSending.writeShort(tableId);
 				messageSending.writeLong(Long.parseLong(accessToken));
 				return messageSending;
 			}

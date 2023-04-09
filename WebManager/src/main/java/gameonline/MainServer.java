@@ -1,18 +1,23 @@
 package gameonline;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Configuration;
 
+import backendgame.com.core.ThreadPool;
 import dynamodb.TableDynamoDB_AccountLogin;
 import gameonline.config.Config;
 import gameonline.config.Swagger2Config;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.controller_user.Controller001_LoginScreen;
-import richard.Lib;
-import richard.threadpool.ThreadPool;
 
 @SpringBootApplication
 public class MainServer {
@@ -71,7 +76,8 @@ public class MainServer {
 		
 		
 		SpringApplication.run(MainServer.class, args);
-		String ip = Lib.getIp().get(0);
+		traceIpAdress();
+		String ip = getIp().get(0);
 		System.out.println("***********************************************************->"+ip);
 		System.out.println("Your API :	http://localhost/swagger-ui.html");
 		System.out.println("Your API :	http://"+ip+":" + Config.PORT_Cloud + "/swagger-ui.html");
@@ -90,4 +96,63 @@ public class MainServer {
 			factory.setPort(Config.PORT_Cloud);
 		}
 	}
+	
+	
+    public static final void traceListMac() {
+        ArrayList<String> _listMac = getListMacAdress();
+        for (int i = 0; i < _listMac.size(); i++)
+            System.out.println("MacAddress : " + _listMac.get(i));
+    }
+
+    public static final ArrayList<String> getListMacAdress() {
+        ArrayList<String> _listMac = new ArrayList<>();
+        StringBuilder sb = null;
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface network = networkInterfaces.nextElement();
+                byte[] mac = network.getHardwareAddress();
+                if (mac == null) {
+                } else {
+                    sb = new StringBuilder();
+                    for (int i = 0; i < mac.length; i++) {
+                        sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
+                    }
+                    _listMac.add(sb.toString());
+                }
+            }
+        } catch (SocketException e) {
+        }
+        return _listMac;
+    }
+    
+    public static final void traceIpAdress() {
+        new Thread(new Runnable() {
+            public void run() {
+                ArrayList<String> listIp=getIp();
+                for(String s:listIp)
+                    System.out.println(s);
+            }
+        }).start();
+    }
+    public static final ArrayList<String> getIp() {
+        ArrayList<String> listIp=new ArrayList<String>();
+        String s;
+        try {
+            Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
+            while(e.hasMoreElements()){
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration<InetAddress> ee = n.getInetAddresses();
+                while (ee.hasMoreElements()) {
+                    s=ee.nextElement().getHostAddress();
+                    if(s!=null && s.equals("127.0.0.1")==false && s.startsWith("fe80:0:0:0")==false && s.startsWith("0:0:0:0:0:0")==false)
+                        listIp.add(s);
+                }
+            }
+            return listIp;
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return listIp;
+    }
 }

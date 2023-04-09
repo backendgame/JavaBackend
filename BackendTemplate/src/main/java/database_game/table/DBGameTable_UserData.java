@@ -6,12 +6,11 @@ import java.io.RandomAccessFile;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 
+import backendgame.com.database.DBProcess_DescribeRowLoop;
 import backendgame.com.database.DBString;
-import backendgame.com.database.ProcessDescribe;
+import backendgame.com.database.entity.DBDescribe;
 import backendgame.com.database.entity.DataType;
-import backendgame.com.database.entity.DescribeData;
 import begame.config.PATH;
-import begame.onehit.web.dto.DTO_Describe;
 
 public class DBGameTable_UserData extends BaseDatabaseGame{
 	public static final long OFFSET_CountSubTable			= 60;
@@ -34,7 +33,7 @@ public class DBGameTable_UserData extends BaseDatabaseGame{
 	
 	public static final long Offset_DescribeTables	 		= 1024;//ID → short → List DescribeTables
 
-	private ProcessDescribe process;
+	private DBProcess_DescribeRowLoop process;
 	public DBGameTable_UserData(short tableId) throws FileNotFoundException {
 		path=PATH.DATABASE_FOLDER+"/"+tableId+"/UserData";
 		rfData = new RandomAccessFile(path, "rw");
@@ -42,63 +41,42 @@ public class DBGameTable_UserData extends BaseDatabaseGame{
 
 
 
-	private void initProcess() {if(process==null) {process=new ProcessDescribe(rfData, Offset_DescribeTables);}}
-	public void writeDescribes(DescribeData[] list) throws IOException {
+	private void initProcess() {if(process==null) {process=new DBProcess_DescribeRowLoop(rfData, Offset_DescribeTables);}}
+	public void updateDescribeTable(DBDescribe[] list, DBString dbString) throws IOException {
 		initProcess();
-		process.writeDescribes(list);
+		
+		int numberCol = list==null?0:list.length;
+		DBDescribe[] listWithUserId = new DBDescribe[numberCol+1];
+		DBDescribe describe = new DBDescribe();
+		listWithUserId[0]=describe;
+		
+		describe.OffsetRow=0;
+		describe.ViewId=0;
+		describe.State=0;
+		describe.Permission=0;
+		describe.Size=8;
+		describe.Type=DataType.LONG;
+		describe.DefaultData=new byte[8];
+		describe.ColumnName="OffsetCredential";
+		
+		for(int i=0;i<numberCol;i++)
+			listWithUserId[i+1]=list[i];
+		process.writeDescribes(listWithUserId);
 	}
-	
-	public DTO_Describe[] getDescribeTables(DBString dbString) throws IOException {
+	public DBDescribe[] getDescribeTables(DBString dbString) throws IOException {
 		initProcess();
-		DescribeData[] list = process.readDescribes();
+		DBDescribe[] list = process.readDescribes();
 		if(list==null || list.length==0)
 			return null;
 		
 		int numberDescribe = list.length;
-		DTO_Describe[] result = new DTO_Describe[numberDescribe-1];
-		DTO_Describe describeDTO;
-		DescribeData describeData;
-		for(int i=1;i<numberDescribe;i++) {//Không tính OffsetCredential 
-			describeData=list[i];
-			describeDTO=new DTO_Describe();
-			
-			describeDTO.ColumnId = describeData.ColumnId_StringName;
-			describeDTO.ColumnName = dbString.readStringByOffset(describeDTO.ColumnId);
-			describeDTO.ViewId = describeData.ViewId;
-			describeDTO.Type = describeData.Type;
-			describeDTO.Size = describeData.Size;
-			describeDTO.DefaultData = describeData.DefaultData;
-
-			result[i-1]=describeDTO;
-		}
+		DBDescribe[] result = new DBDescribe[numberDescribe-1];
+		for(int i=1;i<numberDescribe;i++)
+			result[i-1]=list[i];
 		return result;
 	}
 	
-	public void updateDescribeTable(DTO_Describe[] newDescribeTables, DBString dbString) throws IOException {
-		int numberDes = newDescribeTables==null?0:newDescribeTables.length;
-		
-		DescribeData des;
-		DescribeData[] listDes = new DescribeData[numberDes+1];
-		
-		des=new DescribeData();
-		des.ColumnId_StringName=dbString.getOffset("OffsetCredential");
-		des.Type=DataType.LONG;
-		des.Size=8;
-		listDes[0]=des;
-		
-		for(int i=0;i<numberDes;i++) {
-			des=new DescribeData();
-			des.ColumnId_StringName=dbString.getOffset(newDescribeTables[i].ColumnName);
-			des.ViewId=newDescribeTables[i].ViewId;
-			des.Type=newDescribeTables[i].Type;
-			des.Size=newDescribeTables[i].Size;
-			des.DefaultData=newDescribeTables[i].DefaultData;
-			
-			listDes[i+1]=des;
-		}
-		
-		process.writeDescribes(listDes);
-	}
+
 	
 	
 	public int getDataLength() throws IOException {
@@ -120,19 +98,5 @@ public class DBGameTable_UserData extends BaseDatabaseGame{
 	}
 
 
-
 	public void setLong(long offset, long value) throws IOException {rfData.seek(offset);rfData.writeLong(value);}
-
-
-
-
-
-	
-
-
-
-//	public long getCredentialOffset(long userId) throws IOException {
-//		rfData.seek(LENGTH_HEADER + userId*(9+dataLength) + 1 + dataLength);
-//		return rf.readLong();
-//	}
 }

@@ -3,13 +3,13 @@ package gameonline.rest.controller_user.Table.account;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.dto.ParsingRow_QuerryAccount_DTO;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public abstract class BaseService_ParsingRow extends BaseAuthorization {
 	@NotNull @Positive public short regionId;

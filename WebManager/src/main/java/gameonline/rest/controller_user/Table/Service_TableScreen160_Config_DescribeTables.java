@@ -3,14 +3,14 @@ package gameonline.rest.controller_user.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.database.model.DescribeTable;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_TableScreen160_Config_DescribeTables extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -26,13 +26,13 @@ public class Service_TableScreen160_Config_DescribeTables extends BaseAuthorizat
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Table_Config_DescribeTables);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
+				messageSending.writeShort(tableId);
 				
 				if(describeTables==null) {
-					messageSending.writeshort((short) 0);
+					messageSending.writeShort((short) 0);
 				}else {
 					short numberDescribeTables = (short) describeTables.length;
-					messageSending.writeshort(numberDescribeTables);
+					messageSending.writeShort(numberDescribeTables);
 					for(short i=0;i<numberDescribeTables;i++) 
 						describeTables[i].writeMessage(messageSending);
 				}

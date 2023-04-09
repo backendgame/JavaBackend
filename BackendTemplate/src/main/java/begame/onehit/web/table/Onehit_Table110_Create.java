@@ -6,13 +6,13 @@ import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.server.BaseBackEnd_Session;
 import backendgame.com.database.DBString;
+import backendgame.com.database.entity.DBDescribe;
 import begame.config.CMD_ONEHIT;
 import begame.config.CaseCheck;
 import begame.config.PATH;
 import begame.onehit.BaseOnehit_AiO;
 import begame.onehit.BinaryToken;
 import begame.onehit.web.dto.DTO_Create_Table;
-import begame.onehit.web.dto.DTO_Describe;
 import database_game.table.DBGameTable_UserData;
 
 public class Onehit_Table110_Create extends BaseOnehit_AiO {
@@ -31,7 +31,7 @@ public class Onehit_Table110_Create extends BaseOnehit_AiO {
 			return mgTimeout;
 		//////////////////////////////////////////////////////////////////////
 		short numberNewDescribeTables = messageReceiving.readShort();
-		DTO_Describe[] newDescribeTables = new DTO_Describe[numberNewDescribeTables];
+		DBDescribe[] newDescribeTables = new DBDescribe[numberNewDescribeTables];
 		for(short i=0;i<numberNewDescribeTables;i++)
 			newDescribeTables[i].readMessage(messageReceiving);
 		

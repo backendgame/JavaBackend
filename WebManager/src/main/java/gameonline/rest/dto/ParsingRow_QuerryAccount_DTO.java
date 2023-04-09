@@ -3,9 +3,9 @@ package gameonline.rest.dto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import backendgame.com.core.MessageReceiving;
 import gameonline.rest.database.model.DataType;
 import gameonline.rest.database.model.DescribeTable;
-import richard.MessageReceiving;
 
 public class ParsingRow_QuerryAccount_DTO {
 	public DescribeTable[] listDescribeTables;
@@ -58,11 +58,11 @@ public class ParsingRow_QuerryAccount_DTO {
 				
 				case DataType.BINARY:
 					short arrLength = messageReceiving.readShort();
-					leaf.add(messageReceiving.readArrayByte(arrLength));
+					leaf.add(messageReceiving.readByteArray(arrLength));
 					break;
 				case DataType.LIST:
 					short arrLength2 = messageReceiving.readShort();
-					leaf.add(messageReceiving.readArrayByte(arrLength2));
+					leaf.add(messageReceiving.readByteArray(arrLength2));
 					break;
 
 				default:System.err.println("DataType not Exist");break;

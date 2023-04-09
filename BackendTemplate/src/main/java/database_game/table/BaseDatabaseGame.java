@@ -24,8 +24,8 @@ public abstract class BaseDatabaseGame {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public RandomAccessFile rfData;
+	public short tableId;
 	public String path;
-	
 	
 	public abstract void deleteFile();
 	public void close() {if(rfData!=null)try {rfData.close();} catch (IOException e) {e.printStackTrace();}}

@@ -12,14 +12,13 @@ import com.amazonaws.services.dynamodbv2.model.ReturnValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import backendgame.com.core.TimeManager;
 import dynamodb.TableDynamoDB_AccountLogin;
 import dynamodb.TableDynamoDB_UserData;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.BinaryToken;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.Lib;
-import richard.TimeManager;
 
 public class Service_LoginScreen_Login_With_EmailPassword extends BaseVariable {
 	@NotEmpty
@@ -68,7 +67,7 @@ public class Service_LoginScreen_Login_With_EmailPassword extends BaseVariable {
 					.withReturnValues(ReturnValue.ALL_NEW)
 					).getItem();
 		}catch (Exception e) {
-			return new MyRespone(MyRespone.STATUS_InternalServerError, "UserId not found", Lib.getStringException(e));
+			return new MyRespone(MyRespone.STATUS_InternalServerError, "UserId not found", getStringException(e));
 		}
 		
 		if(item==null)

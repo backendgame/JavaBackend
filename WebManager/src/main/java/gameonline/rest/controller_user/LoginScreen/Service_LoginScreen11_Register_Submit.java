@@ -11,12 +11,12 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import backendgame.com.core.TimeManager;
 import dynamodb.TableDynamoDB_UserData;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.BinaryToken;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.TimeManager;
 
 public class Service_LoginScreen11_Register_Submit extends BaseVariable {
 	@NotNull public long userId;

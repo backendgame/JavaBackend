@@ -1,9 +1,9 @@
-package richard;
+package gameonline.config;
 /** writer : richard */
 
 public class CMD_ONEHIT {
 
-	public static final short SplashGlobal_GetList_OneHit   =1;
+    public static final short SplashGlobal_GetList_OneHit   =1;
     public static final short SplashGlobal_GetList_ServerGame_Name=2;
     public static final short SplashGlobal_GetList_ServerGame_IP=3;
     public static final short SplashGlobal_GetList_ServerGame_Data=4;

@@ -7,12 +7,11 @@ import com.amazonaws.services.dynamodbv2.document.AttributeUpdate;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 
+import backendgame.com.core.TimeManager;
 import dynamodb.TableDynamoDB_AccountLogin;
 import gameonline.config.Config;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.MyRespone;
-import richard.Lib;
-import richard.TimeManager;
 
 public class Service_LoginScreen20_ForgotPassword_Request extends BaseVariable {
 	@NotEmpty
@@ -35,7 +34,7 @@ public class Service_LoginScreen20_ForgotPassword_Request extends BaseVariable {
 		databaseAccount.table.updateItem(new UpdateItemSpec().withPrimaryKey(TableDynamoDB_AccountLogin.HASH_KEY, email).withAttributeUpdate(new AttributeUpdate(TableDynamoDB_AccountLogin.ATTRIBUTE_Timeout_ForgotPassword).put(timeoutUpdate)));
 		threadPool.runThread(new Runnable() {
 			public void run() {
-				Lib.sendEmail(Config.Gmail_Send, Config.Gmail_AppPassword, email, Config.Domain + " - Password Recovery", "Password reset link : "+timeoutUpdate);
+				Config.sendEmail(Config.Gmail_Send, Config.Gmail_AppPassword, email, Config.Domain + " - Password Recovery", "Password reset link : "+timeoutUpdate);
 			}
 		});
 		

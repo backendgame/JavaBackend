@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import backendgame.com.core.MessageReceiving;
 import gameonline.rest.database.model.DataType;
 import gameonline.rest.database.model.DescribeTable;
-import richard.MessageReceiving;
 
 public class Leaderboard_FulQuerryDTO {
 	public short NumberTop;
@@ -88,11 +88,11 @@ public class Leaderboard_FulQuerryDTO {
 				
 				case DataType.BINARY:
 					short arrLength = messageReceiving.readShort();
-					leaf.add(messageReceiving.readArrayByte(arrLength));
+					leaf.add(messageReceiving.readByteArray(arrLength));
 					break;
 				case DataType.LIST:
 					short arrLength2 = messageReceiving.readShort();
-					leaf.add(messageReceiving.readArrayByte(arrLength2));
+					leaf.add(messageReceiving.readByteArray(arrLength2));
 					break;
 
 				default:System.err.println("DataType not Exist");break;

@@ -5,10 +5,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageSending;
+import gameonline.config.CMD_ONEHIT;
 import gameonline.rest.MyRespone;
 import gameonline.rest.database.model.DatabaseId;
-import richard.CMD_ONEHIT;
-import richard.MessageSending;
 
 public class ServiceClient_Login6_EmailCode extends BaseClient_Login {
 	@NotNull @Positive public short tableId;
@@ -20,7 +20,7 @@ public class ServiceClient_Login6_EmailCode extends BaseClient_Login {
 	
 	public MyRespone respone() {
 		MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBClient_Table_Login_With_Password);
-		messageSending.writeshort(tableId);
+		messageSending.writeShort(tableId);
 		messageSending.writeLong(AccessKey);
 		messageSending.writeByte(DatabaseId.EmailCode);
 		messageSending.writeString(email);

@@ -4,13 +4,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_TableScreen999_Random_Account extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -48,9 +48,9 @@ public class Service_TableScreen999_Random_Account extends BaseAuthorization{
 			@Override public MessageSending doSendMessage() {
 				MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Row_Random_Account);
 				messageSending.writeString(token);
-				messageSending.writeshort(tableId);
+				messageSending.writeShort(tableId);
 				
-				messageSending.writeshort(numberAccount);
+				messageSending.writeShort(numberAccount);
 				messageSending.writeBoolean(Device);
 				messageSending.writeBoolean(SystemAccount);
 				messageSending.writeBoolean(Facebook);

@@ -9,15 +9,15 @@ import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.NameMap;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
 import dynamodb.TableDynamoDB_UserData;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.BinaryToken;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public abstract class BaseService_CeateSubTable extends BaseVariable{
 	@NotNull @Positive public short regionId;

@@ -3,10 +3,10 @@ package gameonline.rest.controller_user.Table.sub.tile_binary;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageSending;
+import gameonline.config.CMD_ONEHIT;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
-import richard.CMD_ONEHIT;
-import richard.MessageSending;
 
 public class Service_SubTableScreen41_List_DataQuerry_ListIndex extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -22,10 +22,10 @@ public class Service_SubTableScreen41_List_DataQuerry_ListIndex extends BaseAuth
 		
 		MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_SubTileBinary_Querry_Index);
 		messageSending.writeString(token);
-		messageSending.writeshort(tableId);
-		messageSending.writeshort(subTableID);
+		messageSending.writeShort(tableId);
+		messageSending.writeShort(subTableID);
 		
-		messageSending.writeshort(numberNode);
+		messageSending.writeShort(numberNode);
 		for(short i=0;i<numberNode;i++)
 			messageSending.writeLong(listIndex[i]);
 		return messageSending;

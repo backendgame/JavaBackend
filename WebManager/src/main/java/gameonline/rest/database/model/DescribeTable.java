@@ -1,7 +1,7 @@
 package gameonline.rest.database.model;
 
-import richard.MessageReceiving;
-import richard.MessageSending;
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
 
 public class DescribeTable {//==>29
     public static final short BEGIN_OFFSET= 8;
@@ -24,7 +24,7 @@ public class DescribeTable {//==>29
     
     public void writeMessage(MessageSending messageSending) {
         messageSending.writeString(ColumnName);
-        messageSending.writeshort(ColumnId);
+        messageSending.writeShort(ColumnId);
         messageSending.writeByte(Type);
         
         switch (Type) {
@@ -39,7 +39,7 @@ public class DescribeTable {//==>29
                 break;
     
             case DataType.SHORT:
-                messageSending.writeshort(Short.parseShort(DefaultValue+""));
+                messageSending.writeShort(Short.parseShort(DefaultValue+""));
                 break;
                 
             case DataType.INTEGER:
@@ -67,8 +67,8 @@ public class DescribeTable {//==>29
                 
             case DataType.LIST:
             case DataType.BINARY:
-                messageSending.writeshort(Size);
-                messageSending.writeCopyData((byte[]) DefaultValue);
+                messageSending.writeShort(Size);
+                messageSending.writeSpecialArray_WithoutLength((byte[]) DefaultValue);
                 break;
             default:break;
         }
@@ -130,7 +130,7 @@ public class DescribeTable {//==>29
             case DataType.LIST:
             case DataType.BINARY:
                 Size=messageReceiving.readShort();
-                DefaultValue=messageReceiving.readArrayByte(Size);
+                DefaultValue=messageReceiving.readByteArray(Size);
                 break;
             default:break;
         }

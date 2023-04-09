@@ -3,13 +3,13 @@ package gameonline.rest.controller_client.login;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseVariable;
 import gameonline.rest.MyRespone;
 import gameonline.rest.SystemConstant;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class BaseClient_Login extends BaseVariable {
 
@@ -33,7 +33,7 @@ public class BaseClient_Login extends BaseVariable {
 					case CaseCheck.EXIST:
 						node.put(SystemConstant.TOKEN, messageReceiving.readString());
 						node.put(SystemConstant.USERID, messageReceiving.readLong());
-						node.put(SystemConstant.DATA, messageReceiving.readMiniByte());
+						node.put(SystemConstant.DATA, messageReceiving.readByteArray());
 						myRespone.status=MyRespone.STATUS_Success;
 						myRespone.setData(node);
 						break;

@@ -3,15 +3,15 @@ package gameonline.rest.controller_user.Table.account;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
 import database.operators.BB_Operator;
+import gameonline.config.CMD_ONEHIT;
+import gameonline.config.CaseCheck;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
 import gameonline.rest.database.model.DataType;
-import richard.CMD_ONEHIT;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_ParsingRowScreen285_Update_UserData extends BaseAuthorization{
 	@NotNull @Positive public short regionId;
@@ -21,10 +21,10 @@ public class Service_ParsingRowScreen285_Update_UserData extends BaseAuthorizati
 	public MyRespone respone() {
 		final MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_ParsingRow_Update_UserData);
 		messageSending.writeString(token);
-		messageSending.writeshort(tableId);
+		messageSending.writeShort(tableId);
 		
 		short numberUpdate = (short) listUpdate.length;
-		messageSending.writeshort(numberUpdate);
+		messageSending.writeShort(numberUpdate);
 		for(short i=0;i<numberUpdate;i++)
 			listUpdate[i].writeMessage(messageSending);
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

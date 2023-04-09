@@ -2,12 +2,12 @@ package gameonline.rest.controller_user.Table.sub;
 
 import java.util.HashMap;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import gameonline.config.CMD_ONEHIT;
 import gameonline.rest.SystemConstant;
 import gameonline.rest.database.model.DescribeTable;
 import gameonline.rest.database.model.SubTable_Type;
-import richard.CMD_ONEHIT;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public class Service_SubTableScreen308_Create_Tile_PrimaryKey extends BaseService_CeateSubTable{
 	public DescribeTable primaryKey;
@@ -16,13 +16,13 @@ public class Service_SubTableScreen308_Create_Tile_PrimaryKey extends BaseServic
 	@Override public MessageSending onCreateMessage(String _token) {	
 		MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_SubTable_Create_Tile_PrimaryKey);
 		messageSending.writeString(_token);
-		messageSending.writeshort(tableId);
+		messageSending.writeShort(tableId);
 		
 		if(describeTables==null) {
-			messageSending.writeshort((short) 0);
+			messageSending.writeShort((short) 0);
 		}else {
 			short numberDescribeTables = (short) describeTables.length;
-			messageSending.writeshort(numberDescribeTables);
+			messageSending.writeShort(numberDescribeTables);
 			for(short i=0;i<numberDescribeTables;i++) 
 				describeTables[i].writeMessage(messageSending);
 		}

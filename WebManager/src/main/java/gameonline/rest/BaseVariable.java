@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import backendgame.com.core.ThreadPool;
 import dynamodb.TableDynamoDB_AccountLogin;
 import dynamodb.TableDynamoDB_UserData;
-import richard.RandomCache;
-import richard.threadpool.ThreadPool;
+import gameonline.config.RandomCache;
 
 public class BaseVariable {
 	public static Pattern patternUsername;
@@ -58,7 +58,18 @@ public class BaseVariable {
 		resExisted = new MyRespone(MyRespone.STATUS_Existed);
 	}
 	
-	
+	public final String getStringException(Exception paramException) {
+		String str = paramException.toString();
+		StackTraceElement[] arrayOfStackTraceElement;
+		if ((arrayOfStackTraceElement = paramException.getStackTrace()) != null) {
+			int i = arrayOfStackTraceElement.length;
+			for (byte b = 0; b < i; b++) {
+				StackTraceElement stackTraceElement = arrayOfStackTraceElement[b];
+				str = str + "\n" + stackTraceElement;
+			}
+		}
+		return str;
+	}
 	
 	protected String getIp() {
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getRemoteAddr();

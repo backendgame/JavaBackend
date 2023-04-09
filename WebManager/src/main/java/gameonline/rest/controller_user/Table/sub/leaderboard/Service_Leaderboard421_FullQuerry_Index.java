@@ -2,9 +2,9 @@ package gameonline.rest.controller_user.Table.sub.leaderboard;
 
 import javax.validation.constraints.NotNull;
 
+import backendgame.com.core.MessageSending;
+import gameonline.config.CMD_ONEHIT;
 import gameonline.rest.MyRespone;
-import richard.CMD_ONEHIT;
-import richard.MessageSending;
 
 public class Service_Leaderboard421_FullQuerry_Index extends BaseService_Leaderboard_Querry{
 	@NotNull public long[] listIndex;
@@ -14,10 +14,10 @@ public class Service_Leaderboard421_FullQuerry_Index extends BaseService_Leaderb
 		
 		MessageSending messageSending = new MessageSending(CMD_ONEHIT.BBWeb_Leaderboard_FullQuerry_Index);
 		messageSending.writeString(token);
-		messageSending.writeshort(tableId);
-		messageSending.writeshort(subTableID);
+		messageSending.writeShort(tableId);
+		messageSending.writeShort(subTableID);
 		
-		messageSending.writeshort(numberIndex);
+		messageSending.writeShort(numberIndex);
 		for(short i=0;i<numberIndex;i++)
 			messageSending.writeLong(listIndex[i]);
 		

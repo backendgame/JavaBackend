@@ -3,11 +3,11 @@ package gameonline.rest.controller_user.Table.sub.tile_binary;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.client.ClientOneHit;
+import gameonline.config.CaseCheck;
 import gameonline.rest.MyRespone;
 import gameonline.rest.database.model.DataType;
-import richard.CaseCheck;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
 
 public abstract class BaseClientOnehit_TileCustomQuerry extends ClientOneHit {
 	private MyRespone myRespone;
@@ -55,7 +55,7 @@ public abstract class BaseClientOnehit_TileCustomQuerry extends ClientOneHit {
 					case DataType.BINARY:
 					case DataType.LIST:
 						short dataLength = messageReceiving.readShort();
-						leaf.add(messageReceiving.readArrayByte(dataLength));
+						leaf.add(messageReceiving.readByteArray(dataLength));
 						break;
 						
 					default:myRespone.setStatus(MyRespone.STATUS_Invalid).setMessage("DatabaseCode error : BBWeb_SubTable_TileCustom_Data_Querry");return;

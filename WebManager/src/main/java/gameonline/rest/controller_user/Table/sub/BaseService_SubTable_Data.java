@@ -3,11 +3,11 @@ package gameonline.rest.controller_user.Table.sub;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import backendgame.com.core.MessageReceiving;
+import backendgame.com.core.MessageSending;
+import backendgame.com.core.client.ClientOneHit;
 import gameonline.rest.BaseAuthorization;
 import gameonline.rest.MyRespone;
-import richard.ClientOneHit;
-import richard.MessageReceiving;
-import richard.MessageSending;
 
 public abstract class BaseService_SubTable_Data extends BaseAuthorization {
 	@NotNull @Positive public short regionId;
