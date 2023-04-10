@@ -141,11 +141,13 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 			return sumData/dataLength+1;
 	}
 	
+	public void traceDescribe() throws IOException {
+		DBDescribe[] list = des.readDescribes();
+		if(list!=null)
+			for(DBDescribe describe:list)
+				describe.trace();
+	}
+	
 	@Override public void close() {if(rfData!=null)try {rfData.close();rfData=null;} catch (IOException e) {e.printStackTrace();}}
 	@Override public void deleteFile() {try {Files.deleteIfExists(FileSystems.getDefault().getPath(path));} catch (IOException e) {e.printStackTrace();}}
-
-
-
-
-
 }
