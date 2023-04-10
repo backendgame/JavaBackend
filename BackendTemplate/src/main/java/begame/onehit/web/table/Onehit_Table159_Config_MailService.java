@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
-import backendgame.config.CMD_ONEHIT;
-import database.table.DBGameTable_UserData;
+import begame.config.CMD_ONEHIT;
+import database_game.table.DBGame_AccountLogin;
 
 public class Onehit_Table159_Config_MailService extends BaseOnehitTable_Validate_TableInfo {
 
@@ -13,18 +13,11 @@ public class Onehit_Table159_Config_MailService extends BaseOnehitTable_Validate
 		super(CMD_ONEHIT.BBWeb_Table_Config_MailService);
 	}
 
-	@Override protected MessageSending onHeaderInfo(DBGameTable_UserData databaseUserData, MessageReceiving messageReceiving) throws IOException {
-		int length = messageReceiving.avaiable();
-		if(length==0)
+	@Override
+	protected MessageSending onDatabaseAccount(DBGame_AccountLogin databaseAccount, MessageReceiving messageReceiving) throws IOException {
+		if(messageReceiving.avaiable()==0 || messageReceiving.avaiable()>256)
 			return mgVariableInvalid;
-		
-		if(length > DBGameTable_UserData.Offset_DescribeTables - DBGameTable_UserData.Offset_Email)
-			return mgOutOfRange;
-		
-		databaseUserData.rf.seek(DBGameTable_UserData.Offset_Email);
-		databaseUserData.rf.write(messageReceiving.readByteArray(length));
-		
+		databaseAccount.writeData(DBGame_AccountLogin.Offset_Email, messageReceiving.getEndByte());
 		return mgOK;
 	}
-
 }

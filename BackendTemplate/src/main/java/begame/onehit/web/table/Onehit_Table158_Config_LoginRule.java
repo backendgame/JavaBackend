@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
-import backendgame.config.CMD_ONEHIT;
-import database.table.DBGameTable_UserData;
+import begame.config.CMD_ONEHIT;
+import database_game.table.DBGame_AccountLogin;
 
 public class Onehit_Table158_Config_LoginRule extends BaseOnehitTable_Validate_TableInfo {
 
@@ -13,16 +13,13 @@ public class Onehit_Table158_Config_LoginRule extends BaseOnehitTable_Validate_T
 		super(CMD_ONEHIT.BBWeb_Table_Config_LoginRule);
 	}
 
-	@Override protected MessageSending onHeaderInfo(DBGameTable_UserData databaseUserData, MessageReceiving messageReceiving) throws IOException {
-		if(messageReceiving.avaiable()!=7)
-			return mgInvalid;
-		////////////////////////////////////////////////////////////////
-		databaseUserData.rf.seek(DBGameTable_UserData.Offset_Permission_Device);
-		databaseUserData.rf.write(messageReceiving.readByteArray(7));
-		////////////////////////////////////////////////////////////////
+
+	@Override protected MessageSending onDatabaseAccount(DBGame_AccountLogin databaseAccount, MessageReceiving messageReceiving) throws IOException {
+		byte[] loginRule = messageReceiving.readSpecialArray_WithoutLength(7);
+		if(messageReceiving.validate()==false)
+			return mgVariableInvalid;
+		
+		databaseAccount.writeData(DBGame_AccountLogin.Offset_Permission_Device, loginRule);
 		return mgOK;
 	}
-	
-	
-
 }

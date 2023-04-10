@@ -1,8 +1,5 @@
 package database_game.table;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
-
 public abstract class BaseDatabaseGame {
 	public static final long Offset_TimeAvaiable		 	= 0;
 	public static final long Offset_AdminId					= 8;//UserId-DynamoDB
@@ -23,10 +20,12 @@ public abstract class BaseDatabaseGame {
 	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public RandomAccessFile rfData;
-	public short tableId;
+	public static final String INDEX_EXTENSION = ".index";
 	public String path;
 	
+	
+
+	
+	public abstract void close();
 	public abstract void deleteFile();
-	public void close() {if(rfData!=null)try {rfData.close();} catch (IOException e) {e.printStackTrace();}}
 }

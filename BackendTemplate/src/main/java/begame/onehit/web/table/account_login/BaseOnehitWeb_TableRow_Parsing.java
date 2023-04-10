@@ -3,20 +3,18 @@ package begame.onehit.web.table.account_login;
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.server.BaseBackEnd_Session;
-import backendgame.com.database.DBString;
+import backendgame.com.database.entity.DBDescribe;
 import begame.config.CaseCheck;
-import begame.config.PATH;
 import begame.onehit.BaseOnehit_AiO;
 import begame.onehit.BinaryToken;
-import begame.onehit.web.dto.DTO_Describe;
-import database_game.table.DBGameTable_AccountLogin;
-import database_game.table.DBGameTable_UserData;
+import database_game.table.DBGame_AccountLogin;
+import database_game.table.DBGame_UserData;
 
 public abstract class BaseOnehitWeb_TableRow_Parsing extends BaseOnehit_AiO {
 
 	public BaseOnehitWeb_TableRow_Parsing(short command_id) {super(command_id);}
 
-	public abstract long[] onGetUserId(DBGameTable_AccountLogin databaseAccount, DBGameTable_UserData databaseUserData, DBString dbString, MessageReceiving messageReceiving) throws Exception;
+	public abstract long[] onGetUserId(DBGame_AccountLogin databaseAccount, DBGame_UserData databaseUserData, MessageReceiving messageReceiving) throws Exception;
 	
 	@Override public MessageSending onMessage(BaseBackEnd_Session session, MessageReceiving messageReceiving) {
 		BinaryToken richardToken = new BinaryToken();
@@ -31,44 +29,40 @@ public abstract class BaseOnehitWeb_TableRow_Parsing extends BaseOnehit_AiO {
 			return mgInvalid;
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		MessageSending mgResult=null;
-		DBGameTable_AccountLogin databaseAccount = null;
-		DBGameTable_UserData databaseUserData=null;
-		DBString dbString = null;
+		DBGame_AccountLogin databaseAccount = null;
+		DBGame_UserData databaseUserData=null;
 		try {
-			databaseAccount = new DBGameTable_AccountLogin(tableId);
-			databaseUserData = new DBGameTable_UserData(tableId);
-			dbString = new DBString(PATH.dbStringName(tableId));
+			databaseAccount = new DBGame_AccountLogin(tableId);
+			databaseUserData = new DBGame_UserData(tableId);
 			
 			if(System.currentTimeMillis()>databaseUserData.timeAvaiable)//Hết hạn
 				mgResult=mgTimeout;
 			else if(databaseUserData.countRow()<2)
 				mgResult=mgPlayerNotFound;
 			else if(richardToken.adminId==databaseUserData.adminId) {
-				long[] listUserId = onGetUserId(databaseAccount, databaseUserData, dbString, messageReceiving);
+				long[] listUserId = onGetUserId(databaseAccount, databaseUserData, messageReceiving);
 				if(listUserId==null || listUserId.length==0) {
 					mgResult = mgValueNull;	
 				}else {
-					short numberUserId = (short) listUserId.length;
+					int numberUserId = listUserId.length;
 					MessageSending bigMessageSending=new MessageSending(cmd,CaseCheck.HOPLE);
 					bigMessageSending.writeLong(databaseUserData.countRow());
-					if(databaseUserData.getDataLength()==0) {
-						bigMessageSending.writeShort((short) 0);//list Describes = 0
-						bigMessageSending.writeShort(numberUserId);
-						for(short i=0;i<numberUserId;i++) {
-							databaseAccount.writeInfoByOffset(bigMessageSending, databaseUserData.getCredentialOffset(listUserId[i]));
-							databaseUserData.writeParsingRow(listUserId[i], (short) 0, null, bigMessageSending, dbString);
-						}
+					if(databaseUserData.getNumberColumn()==0) {
+						bigMessageSending.writeInt(0);
+						bigMessageSending.writeInt(numberUserId);
+						for(short i=0;i<numberUserId;i++)
+							databaseAccount.writeInfoByOffset(bigMessageSending, databaseUserData.getOffsetOfCredential(listUserId[i]));
 					}else {
-						DTO_Describe[] listDescribeTables = databaseUserData.getDescribeTables(dbString);
-						short numberDescribeTables = (short) listDescribeTables.length;
-						bigMessageSending.writeShort(numberDescribeTables);
+						DBDescribe[] listDescribeTables = databaseUserData.getDescribes();
+						int numberDescribeTables = listDescribeTables.length;
+						bigMessageSending.writeInt(numberDescribeTables);
 						for(short i=0;i<numberDescribeTables;i++) 
 							listDescribeTables[i].writeMessage(bigMessageSending);
 						
-						bigMessageSending.writeShort(numberUserId);
+						bigMessageSending.writeInt(numberUserId);
 						for(short i=0;i<numberUserId;i++) {
-							databaseAccount.writeInfoByOffset(bigMessageSending, databaseUserData.getCredentialOffset(listUserId[i]));
-							databaseUserData.writeParsingRow(listUserId[i], numberDescribeTables, listDescribeTables, bigMessageSending, dbString);
+							databaseAccount.writeInfoByOffset(bigMessageSending, databaseUserData.getOffsetOfCredential(listUserId[i]));
+							databaseUserData.writeParsingRow(listUserId[i], listDescribeTables, numberDescribeTables, bigMessageSending);
 						}
 					}
 					mgResult=bigMessageSending;
@@ -83,7 +77,6 @@ public abstract class BaseOnehitWeb_TableRow_Parsing extends BaseOnehit_AiO {
 		
 		if(databaseUserData!=null)databaseUserData.close();
 		if(databaseAccount!=null)databaseAccount.close();
-		if(dbString!=null)dbString.close();
 		return mgResult;
 	}
 }

@@ -1,10 +1,9 @@
 package begame.onehit.web.table.account_login;
 
 import backendgame.com.core.MessageReceiving;
-import backendgame.config.CMD_ONEHIT;
-import database.table.DBGameTable_AccountLogin;
-import database.table.DBGameTable_UserData;
-import database.table.DBString;
+import begame.config.CMD_ONEHIT;
+import database_game.table.DBGame_AccountLogin;
+import database_game.table.DBGame_UserData;
 
 public class OnehitWeb_ParsingRow251_Querry_By_ListUserId extends BaseOnehitWeb_TableRow_Parsing {
 
@@ -12,8 +11,7 @@ public class OnehitWeb_ParsingRow251_Querry_By_ListUserId extends BaseOnehitWeb_
 		super(CMD_ONEHIT.BBWeb_ParsingRow_Querry_By_ListUserId);
 	}
 
-	@Override
-	public long[] onGetUserId(DBGameTable_AccountLogin databaseAccount, DBGameTable_UserData databaseUserData, DBString dbString, MessageReceiving messageReceiving) throws Exception {
+	@Override public long[] onGetUserId(DBGame_AccountLogin databaseAccount, DBGame_UserData databaseUserData, MessageReceiving messageReceiving) throws Exception {
 		short numberUser = messageReceiving.readShort();
 		long[] listUserId = new long[numberUser];
 		for(short i=0;i<numberUser;i++)

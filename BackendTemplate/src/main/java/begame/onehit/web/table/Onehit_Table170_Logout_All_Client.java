@@ -4,9 +4,8 @@ import java.io.IOException;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
-import backendgame.config.CMD_ONEHIT;
-import database.BaseTableData;
-import database.table.DBGameTable_UserData;
+import begame.config.CMD_ONEHIT;
+import database_game.table.DBGame_AccountLogin;
 
 public class Onehit_Table170_Logout_All_Client extends BaseOnehitTable_Validate_TableInfo {
 
@@ -14,14 +13,15 @@ public class Onehit_Table170_Logout_All_Client extends BaseOnehitTable_Validate_
 		super(CMD_ONEHIT.BBWeb_Table_Logout_All_Client);
 	}
 
-	@Override protected MessageSending onHeaderInfo(DBGameTable_UserData databaseUserData, MessageReceiving messageReceiving) throws IOException {
+
+	@Override protected MessageSending onDatabaseAccount(DBGame_AccountLogin databaseAccount, MessageReceiving messageReceiving) throws IOException {
 		if(messageReceiving.validate()==false)
 			return mgVariableInvalid;
 		//////////////////////////////////////////////////////////////////////////////////
-		databaseUserData.rf.seek(BaseTableData.Offset_LogoutId);
-		byte logoutId = databaseUserData.rf.readByte();
-		databaseUserData.rf.seek(BaseTableData.Offset_LogoutId);
-		databaseUserData.rf.writeByte(logoutId+1);
+		databaseAccount.rfData.seek(DBGame_AccountLogin.Offset_LogoutId);
+		byte logoutId = databaseAccount.rfData.readByte();
+		databaseAccount.rfData.seek(DBGame_AccountLogin.Offset_LogoutId);
+		databaseAccount.rfData.writeByte(logoutId+1);
 		return mgOK;
 	}
 

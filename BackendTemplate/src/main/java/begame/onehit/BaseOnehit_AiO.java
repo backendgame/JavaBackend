@@ -2,11 +2,15 @@ package begame.onehit;
 
 import java.util.regex.Pattern;
 
+import backendgame.com.core.IActionOnehit;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.OneHitProcessing;
+import begame.Server_BackendGame;
 import begame.config.CaseCheck;
 import begame.config.CipherBinary;
 import begame.config.RichardToken;
+import begame.onehit.web.table.Onehit_Table110_Create;
+import begame.onehit.web.table.Onehit_Table120_GetInfo;
 import database_game.DatabaseManager;
 
 public abstract class BaseOnehit_AiO extends OneHitProcessing {
@@ -70,8 +74,8 @@ public abstract class BaseOnehit_AiO extends OneHitProcessing {
 		patternUsername=Pattern.compile("^[A-Za-z]\\w{5,29}$");
 		patternEmail=Pattern.compile("^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-zA-Z]{2,})$");
 		////////////////////////////////////////////////////////////////////////////////////////////////////
-//		Server_BackendGame.serverOnehit.setProcess(new IActionOnehit() {@Override public OneHitProcessing create() {return new Onehit_Table110_Create();}});
-//		Server_BackendGame.serverOnehit.setProcess(new IActionOnehit() {@Override public OneHitProcessing create() {return new Onehit_Table120_GetInfo();}});
+		Server_BackendGame.serverOnehit.setProcess(new IActionOnehit() {@Override public OneHitProcessing create() {return new Onehit_Table110_Create();}});
+		Server_BackendGame.serverOnehit.setProcess(new IActionOnehit() {@Override public OneHitProcessing create() {return new Onehit_Table120_GetInfo();}});
 //		
 //		Server_BackendGame.serverOnehit.setProcess(new IActionOnehit() {@Override public OneHitProcessing create() {return new Onehit_Table151_Config_AccessKey_Set();}});
 //		Server_BackendGame.serverOnehit.setProcess(new IActionOnehit() {@Override public OneHitProcessing create() {return new Onehit_Table153_Config_ReadKey_Set();}});

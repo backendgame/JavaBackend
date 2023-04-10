@@ -1,19 +1,14 @@
 package begame.onehit.web.table;
 
-import java.io.IOException;
-
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.server.BaseBackEnd_Session;
-import backendgame.com.database.DBString;
 import backendgame.com.database.entity.DBDescribe;
 import begame.config.CMD_ONEHIT;
 import begame.config.CaseCheck;
-import begame.config.PATH;
 import begame.onehit.BaseOnehit_AiO;
 import begame.onehit.BinaryToken;
 import begame.onehit.web.dto.DTO_Create_Table;
-import database_game.table.DBGameTable_UserData;
 
 public class Onehit_Table110_Create extends BaseOnehit_AiO {
 
@@ -31,35 +26,36 @@ public class Onehit_Table110_Create extends BaseOnehit_AiO {
 			return mgTimeout;
 		//////////////////////////////////////////////////////////////////////
 		short numberNewDescribeTables = messageReceiving.readShort();
+		if(numberNewDescribeTables<0)
+			return mgValueNull;
+		
 		DBDescribe[] newDescribeTables = new DBDescribe[numberNewDescribeTables];
 		for(short i=0;i<numberNewDescribeTables;i++)
 			newDescribeTables[i].readMessage(messageReceiving);
 		
 		long tokenLifeTime = messageReceiving.readLong();
 		//////////////////////////////////////////////////////////////////////
-		if(numberNewDescribeTables<0)
-			return mgValueNull;
 		if(messageReceiving.validate()==false)
 			return mgVariableInvalid;
 		//////////////////////////////////////////////////////////////////////
-		DTO_Create_Table createTable = managerTable.createTable(binaryToken.adminId);
+		DTO_Create_Table createTable = managerTable.createTable(binaryToken.adminId, newDescribeTables, tokenLifeTime);
 		if(createTable==null)
 			return new MessageSending(cmd,CaseCheck.DATABASE_ERROR_EXIST);
 		
-		DBGameTable_UserData databaseUserData = null;
-		DBString dbString = null;
-		try {
-			dbString=new DBString(PATH.dbStringName(createTable.tableId));
-			databaseUserData=new DBGameTable_UserData(createTable.tableId);
-			databaseUserData.updateDescribeTable(newDescribeTables, dbString);
-			databaseUserData.setLong(DBGameTable_UserData.Offset_Token_LifeTime, tokenLifeTime);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(dbString!=null)
-			dbString.close();
-		if(databaseUserData!=null)
-			databaseUserData.close();
+//		DBGameTable_UserData databaseUserData = null;
+//		DBString dbString = null;
+//		try {
+//			dbString=new DBString(PATH.dbStringName(createTable.tableId));
+//			databaseUserData=new DBGameTable_UserData(createTable.tableId);
+//			databaseUserData.updateDescribeTable(newDescribeTables, dbString);
+//			databaseUserData.setLong(DBGameTable_UserData.Offset_Token_LifeTime, tokenLifeTime);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		if(dbString!=null)
+//			dbString.close();
+//		if(databaseUserData!=null)
+//			databaseUserData.close();
 		
 		MessageSending messageSending = new MessageSending(cmd,CaseCheck.HOPLE);
 		messageSending.writeShort(createTable.tableId);
@@ -71,4 +67,7 @@ public class Onehit_Table110_Create extends BaseOnehit_AiO {
 		return messageSending;
 	}
 
+	
+	
+	
 }

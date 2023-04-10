@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
-import backendgame.config.CMD_ONEHIT;
-import database.table.DBGameTable_UserData;
+import begame.config.CMD_ONEHIT;
+import database_game.table.DBGame_AccountLogin;
 
 public class Onehit_Table157_Config_TokenLifeTime extends BaseOnehitTable_Validate_TableInfo {
 
@@ -13,12 +13,13 @@ public class Onehit_Table157_Config_TokenLifeTime extends BaseOnehitTable_Valida
 		super(CMD_ONEHIT.BBWeb_Table_Config_TokenLifeTime);
 	}
 	
-	@Override protected MessageSending onHeaderInfo(DBGameTable_UserData databaseUserData, MessageReceiving messageReceiving) throws IOException {
+	@Override
+	protected MessageSending onDatabaseAccount(DBGame_AccountLogin databaseAccount, MessageReceiving messageReceiving) throws IOException {
 		long tokenLifeTime = messageReceiving.readLong();
 		if(messageReceiving.validate()==false)
 			return mgVariableInvalid;
 		////////////////////////////////////////////////////////////////
-		databaseUserData.setLong(DBGameTable_UserData.Offset_Token_LifeTime, tokenLifeTime);
+		databaseAccount.writeLong(DBGame_AccountLogin.Offset_Token_LifeTime, tokenLifeTime);
 		////////////////////////////////////////////////////////////////
 		return mgOK;
 	}

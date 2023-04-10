@@ -2,12 +2,10 @@ package begame.onehit.web.table.account_login;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
-import backendgame.config.CMD_ONEHIT;
-import backendgame.onehit.BaseOnehitWeb;
-import backendgame.onehit.BinaryToken;
-import database.table.DBGameTable_AccountLogin;
-import database.table.DBGameTable_UserData;
-import database.table.DBString;
+import begame.config.CMD_ONEHIT;
+import begame.onehit.web.BaseOnehitWeb;
+import database_game.table.DBGame_AccountLogin;
+import database_game.table.DBGame_UserData;
 
 public class OnehitWeb_TableRow290_Update_AccountStatus extends BaseOnehitWeb {
 
@@ -15,7 +13,7 @@ public class OnehitWeb_TableRow290_Update_AccountStatus extends BaseOnehitWeb {
 		super(CMD_ONEHIT.BBWeb_Row_Update_AccountStatus);
 	}
 	
-	@Override public MessageSending onProcessDatabase(DBGameTable_AccountLogin databaseAccount, DBGameTable_UserData databaseUserData, DBString dbString, BinaryToken richardToken, MessageReceiving messageReceiving) throws Exception {
+	@Override public MessageSending onProcessDatabase(DBGame_AccountLogin databaseAccount, DBGame_UserData databaseUserData, MessageReceiving messageReceiving) throws Exception {
 		long userId = messageReceiving.readLong();
 		byte status = messageReceiving.readByte();
 		////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,8 +22,7 @@ public class OnehitWeb_TableRow290_Update_AccountStatus extends BaseOnehitWeb {
 		if(userId<0)
 			return mgPlayerInvalidData;
 		////////////////////////////////////////////////////////////////////////////////////////////////
-		databaseUserData.rf.seek(DBGameTable_UserData.LENGTH_HEADER + userId*(9+databaseUserData.dataLength));
-		databaseUserData.rf.writeByte(status);
+		databaseAccount.updateStatus(databaseUserData.getOffsetOfCredential(userId),status);
 		return mgOK;
 	}	
 }
