@@ -1,6 +1,6 @@
 ### Setup
 
-- Open terminal or cmd at libs → run this : 
+- Open terminal or cmd at lib folder → run this : 
 >mvn install:install-file -Dfile=backendgame.com-1.0.jar -DgroupId=backendgame.com -DartifactId=backendgame.com -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
 
 - Import to pom :
