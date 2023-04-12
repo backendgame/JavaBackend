@@ -61,7 +61,20 @@
 			<artifactId>backendgame.com</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.paypal.sdk/rest-api-sdk -->
+		<dependency>
+		    <groupId>com.paypal.sdk</groupId>
+		    <artifactId>rest-api-sdk</artifactId>
+		    <version>1.14.0</version>
+		</dependency>
+
+
+
 		
 		<dependency>
 			<groupId>io.springfox</groupId>
