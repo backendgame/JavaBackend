@@ -55,6 +55,10 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 	public void writeData(long userId, int indexDescribe, Object value) throws IOException {
 		des.writeData(get_OffsetData(userId, indexDescribe), indexDescribe, value);
 	}
+	
+
+	
+	
 //	public void writeData(DB_WriteDatabase writer) throws IOException {
 //		des.writeData(offset, dataOperator);
 //	}
@@ -84,6 +88,12 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
             return null;
         return des.process(get_OffsetData(userId, indexDescribe), operator, Type, object);
     }
+	public Object process(long userId, int indexDescribe, byte operator, byte Type, Object object) throws IOException {
+		if(Type==des.get_DataType_ByIndex(indexDescribe))
+			return des.process(get_OffsetData(userId, indexDescribe), operator, Type, object);
+		else
+			throw new IOException("Database error "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe))+"!="+Type);
+	}
     
 	public void writeData(long userId, DB_WriteDatabase dataOperator) throws IOException {
 		des.writeData(get_OffsetData(userId, dataOperator.indexDescribe), dataOperator);

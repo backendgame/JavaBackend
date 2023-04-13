@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.database.DBDescribe;
+import backendgame.com.database.operator.DBOperator_Byte;
 import begame.config.PATH;
 
 class DBGame_UserDataTest {
@@ -111,7 +112,8 @@ class DBGame_UserDataTest {
         
         
         databaseUserData.writeData(15, 0, false);
-        databaseUserData.writeData(15, 1, (byte)99);
+//        databaseUserData.writeData(15, 1, (byte)99);
+        databaseUserData.process(15, 1, DBOperator_Byte.ADD, DBDefine_DataType.BYTE, (byte)100);
         databaseUserData.writeData(15, 2, (short)32678);
         databaseUserData.writeData(15, 3, 88.99f);
         databaseUserData.writeData(15, 4, (int)1111);
