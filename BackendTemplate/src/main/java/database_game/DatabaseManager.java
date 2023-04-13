@@ -1,6 +1,6 @@
 package database_game;
 
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.database.DBDescribe;
 import begame.onehit.web.dto.DTO_Create_Table;
 
 public class DatabaseManager {

@@ -7,7 +7,7 @@ import java.io.RandomAccessFile;
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.server.BaseBackEnd_Session;
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.database.DBDescribe;
 import begame.config.CMD_ONEHIT;
 import begame.onehit.web.BaseOnehit_VerifyToken;
 import database_game.table.DBGame_UserData;

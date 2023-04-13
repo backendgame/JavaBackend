@@ -2,7 +2,7 @@ package begame.onehit.web.table.account_login;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.database.DBDescribe;
 import begame.config.CMD_ONEHIT;
 import begame.config.CaseCheck;
 import begame.onehit.web.BaseOnehitWeb;

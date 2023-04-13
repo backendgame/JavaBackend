@@ -8,8 +8,8 @@ import java.util.Random;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import backendgame.com.database.entity.DBDefine_DataType;
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.core.DBDefine_DataType;
+import backendgame.com.database.DBDescribe;
 import begame.config.PATH;
 import database_game.DatabaseId;
 
@@ -32,6 +32,7 @@ class BaseDatabaseGameTest {
 		for(int i=0;i<listRandom.length;i++)
 			listRandom[i]=randomDescribe();
 		databaseUserData.setDescribe(listRandom);
+		databaseUserData.traceDescribe();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		randomAccount(500 + random.nextInt(100));
 		databaseAccount.insertAccount("Dương Đức Trí", DatabaseId.Device, randomString(4), databaseUserData);
@@ -54,95 +55,85 @@ class BaseDatabaseGameTest {
 		randomAccount(500 + random.nextInt(100));
 		
 		System.out.println("NumberColumn : "+databaseUserData.countRow());
-		databaseAccount.traceInfo(0, databaseUserData);
-		databaseAccount.traceInfo(1, databaseUserData);
-		databaseAccount.traceInfo(2, databaseUserData);
+//		databaseAccount.traceInfo(0, databaseUserData);
+//		databaseAccount.traceInfo(1, databaseUserData);
+//		databaseAccount.traceInfo(2, databaseUserData);
 		System.out.println("*******************************************************************************");
 		databaseAccount.traceInfo("Dương Đức Trí", databaseUserData);
 		System.out.println("*******************************************************************************");
-		databaseAccount.traceInfo("Dương Đức Trí", databaseUserData, listRandom);
+//		databaseAccount.traceInfo("Dương Đức Trí", databaseUserData, listRandom);
 	}
 
     public DBDescribe randomDescribe() {
         DBDescribe describe = new DBDescribe();
         describe.Type = -1;
-        switch (random.nextInt(16)) {
+        switch (random.nextInt(17)) {
             case 0:describe.Type = DBDefine_DataType.BOOLEAN;
-                describe.Size = 1;
-                describe.DefaultData = new byte[describe.Size];
-                describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
-                break;
-
-            case 1:describe.Type = DBDefine_DataType.BYTE;
+            case 1:if (describe.Type == -1)describe.Type = DBDefine_DataType.BYTE;
             case 2:if (describe.Type == -1)describe.Type = DBDefine_DataType.STATUS;
             case 3:if (describe.Type == -1)describe.Type = DBDefine_DataType.PERMISSION;
             case 4:if (describe.Type == -1)describe.Type = DBDefine_DataType.AVARTAR;
                 describe.Size = 1;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                describe.loadDefaultData((byte)random.nextInt());
                 break;
 
             case 5:describe.Type = DBDefine_DataType.SHORT;
                 describe.Size = 2;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                describe.loadDefaultData((short)random.nextInt());
                 break;
 
             case 6:describe.Type = DBDefine_DataType.FLOAT;
                 describe.Size = 4;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                describe.loadDefaultData(random.nextFloat());
                 break;
 
             case 7:describe.Type = DBDefine_DataType.IPV4;
-            case DBDefine_DataType.INTEGER:if (describe.Type == -1)describe.Type = DBDefine_DataType.INTEGER;
+            case 8:if (describe.Type == -1)describe.Type = DBDefine_DataType.INTEGER;
                 describe.Size = 4;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                describe.loadDefaultData(random.nextInt());
                 break;
 
-            case 8:describe.Type = DBDefine_DataType.DOUBLE;
+            case 9:describe.Type = DBDefine_DataType.DOUBLE;
                 describe.Size = 8;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                describe.loadDefaultData(random.nextDouble());
                 break;
 
-            case 9:describe.Type = DBDefine_DataType.USER_ID;
-            case 10:if (describe.Type == -1)describe.Type = DBDefine_DataType.TIMEMILI;
-            case 11:if (describe.Type == -1)describe.Type = DBDefine_DataType.LONG;
+            case 10:describe.Type = DBDefine_DataType.USER_ID;
+            case 11:if (describe.Type == -1)describe.Type = DBDefine_DataType.TIMEMILI;
+            case 12:if (describe.Type == -1)describe.Type = DBDefine_DataType.LONG;
                 describe.Size = 8;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                describe.loadDefaultData(random.nextLong());
                 break;
 
-            case 12:describe.Type = DBDefine_DataType.STRING;
+            case 13:describe.Type = DBDefine_DataType.STRING;
+                describe.Size = 8 + random.nextInt(5);
+                describe.ColumnName = randomString(8 + random.nextInt(3));
+                describe.loadDefaultData(randomString(describe.Size-2));
+                break;
+
+            case 14:describe.Type = DBDefine_DataType.ByteArray;
+            case 15:if (describe.Type == -1)describe.Type = DBDefine_DataType.LIST;
                 describe.Size = 5 + random.nextInt(5);
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                byte[] tmp = new byte[describe.Size-4];
+                random.nextBytes(tmp);
+                describe.loadDefaultData(tmp);
                 break;
 
-            case 13:describe.Type = DBDefine_DataType.ByteArray;
-            case 14:if (describe.Type == -1)describe.Type = DBDefine_DataType.LIST;
-                describe.Size = 5 + random.nextInt(5);
-                describe.DefaultData = new byte[describe.Size];
-                describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
-                break;
-
-            case 15:describe.Type = DBDefine_DataType.IPV6;
+            case 16:describe.Type = DBDefine_DataType.IPV6;
                 describe.Size = 16;
-                describe.DefaultData = new byte[describe.Size];
                 describe.ColumnName = randomString(8 + random.nextInt(3));
-                random.nextBytes(describe.DefaultData);
+                byte[] ipv6 = new byte[describe.Size];
+                random.nextBytes(ipv6);
+                describe.loadDefaultData(ipv6);
                 break;
+                
             default:System.err.println("**********************************************************************===>");
                 return null;
         }

@@ -17,15 +17,14 @@ public class OnehitWeb_ParsingRow285_Update_UserData extends BaseOnehitWeb {
 	@Override public MessageSending onProcessDatabase(DBGame_AccountLogin databaseAccount, DBGame_UserData databaseUserData, MessageReceiving messageReceiving) throws Exception {
 	    DB_WriteDatabase operator;
 		int numberProcess = messageReceiving.readInt();
+		long[] userId = new long[numberProcess];
 		DB_WriteDatabase[] listOperators=new DB_WriteDatabase[numberProcess];
+		
 		for(int i=0;i<numberProcess;i++) {
 			operator=new DB_WriteDatabase();
+			userId[i]=messageReceiving.readLong();
 			operator.readMessage(messageReceiving);
 			listOperators[i]=operator;
-			
-			//Fix dataOperator
-			if(databaseUserData.validateData(operator)==false)
-			    return mgInvalid;
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		if(messageReceiving.validate()==false)
@@ -33,7 +32,7 @@ public class OnehitWeb_ParsingRow285_Update_UserData extends BaseOnehitWeb {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		for(int i=0;i<numberProcess;i++)
-			databaseUserData.writeData(listOperators[i]);
+			databaseUserData.writeData(userId[i],listOperators[i]);
 		
 		return mgOK;
 	}

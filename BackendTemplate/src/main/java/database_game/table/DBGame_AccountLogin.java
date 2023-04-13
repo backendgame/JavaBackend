@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.TimeManager;
 import backendgame.com.database.DBBase2Primary_Indexing;
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.database.DBDescribe;
 import begame.config.PATH;
 import database_game.DatabaseId;
 

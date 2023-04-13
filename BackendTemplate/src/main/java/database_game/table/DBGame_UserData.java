@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.util.Arrays;
 
+import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.core.MessageSending;
+import backendgame.com.database.DBDescribe;
 import backendgame.com.database.DBProcess_Describe;
-import backendgame.com.database.entity.DBDefine_DataType;
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.database.entity.DB_ReadDatabase;
 import backendgame.com.database.entity.DB_WriteDatabase;
 import begame.config.PATH;
 
@@ -49,7 +51,13 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 		des.writeDescribes(listDes, true);
 	}
 
-	
+//	public void writeData(long userId,DB_ReadDatabase dataOperator) throws IOException {des.writeData(offset, dataOperator);}
+	public void writeData(long userId, int indexDescribe, Object value) throws IOException {
+		des.writeData(get_OffsetData(userId, indexDescribe), indexDescribe, value);
+	}
+//	public void writeData(DB_WriteDatabase writer) throws IOException {
+//		des.writeData(offset, dataOperator);
+//	}
 	
 	
     public long get_OffsetData(long userId, int indexDescribe) throws IOException {
@@ -59,24 +67,32 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
     public void seekTo_OffsetData(long userId, int indexDescribe) throws IOException {
         rfData.seek(get_OffsetData(userId, indexDescribe));
     }
-    public Object process(long userId, String columnName, byte pperator, byte Type, Object object) throws IOException {
+    
+    
+    
+	public Object processValidate(long userId, int indexDescribe, String columnName, byte operator, byte Type, Object value) throws IOException {
+		if (Type != des.get_DataType_ByIndex(indexDescribe) || des.getColumnName(indexDescribe).equals(columnName)==false) {
+			indexDescribe = des.findIndex_ByColumnName(columnName);
+			if (indexDescribe==-1 || Type != des.get_DataType_ByIndex(indexDescribe))
+				throw new IOException("Database error DBProcess_Describe → writeData(long offset, DB_WriteDatabase writer) " + DBDefine_DataType.getTypeName(Type));
+		}
+		return des.process(get_OffsetData(userId, indexDescribe), operator, Type, value);
+	}
+	public Object process(long userId, String columnName, byte operator, byte Type, Object object) throws IOException {
         int indexDescribe = des.findIndex_ByColumnName(columnName);
         if(indexDescribe==-1)
             return null;
-        return processData(userId, indexDescribe, pperator, Type, object);
+        return des.process(get_OffsetData(userId, indexDescribe), operator, Type, object);
     }
     
-    public Object processData(long userId, int indexDescribe, byte pperator, byte Type, Object object) throws IOException {
-        return des.process(get_OffsetData(userId, indexDescribe), pperator, Type, object);
-    }
-
-    
-    public boolean validateData(DB_WriteDatabase dataOperator) throws IOException {return des.validateFix_DataOperator(dataOperator);}
-    public void writeData(DB_WriteDatabase dataOperator) throws IOException {
-		des.writeData(get_OffsetData(dataOperator.rowId, dataOperator.indexDescribe), dataOperator);
+	public void writeData(long userId, DB_WriteDatabase dataOperator) throws IOException {
+		des.writeData(get_OffsetData(userId, dataOperator.indexDescribe), dataOperator);
 	}
-    public void readData(DB_WriteDatabase dataOperator) throws IOException {
-        des.readData(get_OffsetData(dataOperator.rowId, dataOperator.indexDescribe), dataOperator);
+    public void readData(long userId, int indexDescribe, DB_ReadDatabase reader) throws IOException {
+    	if(des.get_DataType_ByIndex(indexDescribe)==reader.Type)
+    		des.readData(get_OffsetData(userId, indexDescribe), reader);
+    	else
+    		throw new IOException("Database error DBGame_UserData → readData(long userId, int indexDescribe, DB_ReadDatabase reader) : " + DBDefine_DataType.getTypeName(reader.Type) + " != "+des.get_DataType_ByIndex(indexDescribe));
     }
     
 	public void writeParsingRow(long userId, DBDescribe[] listDescribeTables, int numberDescribeTables, MessageSending messageSending) throws IOException {
@@ -141,6 +157,16 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 			return sumData/dataLength+1;
 	}
 	
+	
+	public void traceUserId(long userId) throws IOException {
+	    int numberColumn = des.getNumberDescribe();
+	    for(int i=0;i<numberColumn;i++)
+	        if(des.readValueData(get_OffsetData(userId, i), i) instanceof byte[])
+	            System.out.print(des.getColumnName(i)+"("+Arrays.toString((byte[])des.readValueData(get_OffsetData(userId, i), i))+")  ");
+	        else
+	            System.out.print(des.getColumnName(i)+"("+des.readValueData(get_OffsetData(userId, i), i)+")  ");
+	    System.out.println("");
+    }
 	public void traceDescribe() throws IOException {
 		DBDescribe[] list = des.readDescribes();
 		if(list!=null)

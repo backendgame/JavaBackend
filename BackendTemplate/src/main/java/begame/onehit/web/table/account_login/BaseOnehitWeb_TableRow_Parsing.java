@@ -3,7 +3,7 @@ package begame.onehit.web.table.account_login;
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
 import backendgame.com.core.server.BaseBackEnd_Session;
-import backendgame.com.database.entity.DBDescribe;
+import backendgame.com.database.DBDescribe;
 import begame.config.CaseCheck;
 import begame.onehit.BaseOnehit_AiO;
 import begame.onehit.BinaryToken;
