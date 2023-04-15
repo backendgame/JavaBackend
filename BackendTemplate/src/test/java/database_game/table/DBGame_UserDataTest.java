@@ -105,7 +105,7 @@ class DBGame_UserDataTest {
         
         databaseUserData.setDescribe(listRandom);
         
-        databaseUserData.traceDescribe();
+        databaseUserData.des.trace();
         System.out.println("********************************************************************************");
         for(int i=0;i<100;i++)
             databaseUserData.insertRow(i, random.nextLong());

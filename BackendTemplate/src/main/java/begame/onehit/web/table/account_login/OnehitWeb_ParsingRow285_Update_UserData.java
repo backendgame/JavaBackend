@@ -18,13 +18,13 @@ public class OnehitWeb_ParsingRow285_Update_UserData extends BaseOnehitWeb {
 	    DB_WriteDatabase operator;
 		int numberProcess = messageReceiving.readInt();
 		long[] userId = new long[numberProcess];
-		DB_WriteDatabase[] listOperators=new DB_WriteDatabase[numberProcess];
+		DB_WriteDatabase[] listWritter=new DB_WriteDatabase[numberProcess];
 		
 		for(int i=0;i<numberProcess;i++) {
 			operator=new DB_WriteDatabase();
 			userId[i]=messageReceiving.readLong();
 			operator.readMessage(messageReceiving);
-			listOperators[i]=operator;
+			listWritter[i]=operator;
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		if(messageReceiving.validate()==false)
@@ -32,7 +32,7 @@ public class OnehitWeb_ParsingRow285_Update_UserData extends BaseOnehitWeb {
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		for(int i=0;i<numberProcess;i++)
-			databaseUserData.writeData(userId[i],listOperators[i]);
+			databaseUserData.writeData(userId[i],listWritter[i]);
 		
 		return mgOK;
 	}

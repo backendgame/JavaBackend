@@ -87,8 +87,8 @@ public class DBDescribe {
 			DefaultData[i+2]=tmp[i];
 		DefaultData[0]	= (byte) (strLength>>>8);
 		DefaultData[1]	= (byte) strLength;		
-		
-		
+		if(Size<DefaultData.length)
+			Size=DefaultData.length;
 //        if(value==null){
 //            DefaultData=new byte[2];
 //            return;

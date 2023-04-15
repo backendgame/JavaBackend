@@ -26,12 +26,13 @@ public class Onehit_Table110_Create extends BaseOnehit_AiO {
 			return mgTimeout;
 		//////////////////////////////////////////////////////////////////////
 		short numberNewDescribeTables = messageReceiving.readShort();
-		if(numberNewDescribeTables<0)
-			return mgValueNull;
 		
-		DBDescribe[] newDescribeTables = new DBDescribe[numberNewDescribeTables];
-		for(short i=0;i<numberNewDescribeTables;i++)
-			newDescribeTables[i].readMessage(messageReceiving);
+		DBDescribe[] newDescribeTables = null;
+		if(numberNewDescribeTables>0) {
+			newDescribeTables = new DBDescribe[numberNewDescribeTables];
+			for(short i=0;i<numberNewDescribeTables;i++)
+				newDescribeTables[i].readMessage(messageReceiving);
+		}
 		
 		long tokenLifeTime = messageReceiving.readLong();
 		//////////////////////////////////////////////////////////////////////

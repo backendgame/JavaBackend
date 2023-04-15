@@ -5,13 +5,15 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
 import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.core.MessageSending;
 import backendgame.com.database.DBDescribe;
 import backendgame.com.database.DBProcess_Describe;
-import backendgame.com.database.entity.DB_ReadDatabase;
 import backendgame.com.database.entity.DB_WriteDatabase;
 import begame.config.PATH;
 
@@ -21,13 +23,14 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 	public RandomAccessFile rfData;
 	public DBProcess_Describe des;
 	public DBGame_UserData(short _tableId) throws FileNotFoundException {
+		tableId=_tableId;
 		path=PATH.DATABASE_FOLDER+"/"+_tableId+"/UserData";
 		rfData = new RandomAccessFile(path, "rw");
 		des=new DBProcess_Describe(rfData, OFF);
 	}
-	public DBGame_UserData(String _path,RandomAccessFile _rfData) {
+	public DBGame_UserData(String _path) throws FileNotFoundException {
 		path=_path;
-		rfData=_rfData;
+		rfData = new RandomAccessFile(path, "rw");
 		des=new DBProcess_Describe(rfData, OFF);
 	}
 	
@@ -43,26 +46,43 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 			rfData.writeLong(offsetCredential);
 		}
 	}
-	
+	public long getOffsetOfCredential(long userId) throws IOException {
+		rfData.seek(des.getOffset_BeginData() + userId*(8+des.getDataLength()));
+		return rfData.readLong();
+	}
+	public void reNewUser(long userId,long offsetCredential, byte[] defaultData) throws IOException {
+		rfData.seek(des.getOffset_BeginData() + userId*(des.getDataLength()+8));
+		rfData.writeLong(offsetCredential);
+		rfData.write(defaultData);
+	}
+	public void setCredentialOffset(long userId,long offsetCredential) throws IOException {
+		rfData.seek(des.getOffset_BeginData() + userId*(des.getDataLength()+8));
+		rfData.writeLong(offsetCredential);
+	}
 	public DBDescribe[] getDescribes() throws IOException {
 		return des.readDescribes();
 	}
-	public void setDescribe(DBDescribe[] listDes) throws IOException {
+	
+	public void setDescribe(DBDescribe[] listDes) throws IOException{
 		des.writeDescribes(listDes, true);
 	}
 
-//	public void writeData(long userId,DB_ReadDatabase dataOperator) throws IOException {des.writeData(offset, dataOperator);}
-	public void writeData(long userId, int indexDescribe, Object value) throws IOException {
-		des.writeData(get_OffsetData(userId, indexDescribe), indexDescribe, value);
-	}
-	
 
 	
-	
-//	public void writeData(DB_WriteDatabase writer) throws IOException {
-//		des.writeData(offset, dataOperator);
-//	}
-	
+	public void writeData(long userId, DB_WriteDatabase writer) throws IOException {
+		DBDescribe describe = des.readDescribeByIndex(writer.indexDescribe);
+		if(describe==null || writer.Type!=describe.Type || writer.columnName.equals(describe.ColumnName)==false) {
+			describe=des.findDescribe_ByCoulmnId(writer.columnName);
+			if(describe==null || writer.Type!=describe.Type)
+				throw new IOException("DBGame_UserData error : can't not found describe");
+			writer.Type=describe.Type;
+		}
+		
+		des.writeData(des.getOffset_BeginData() + userId*(8+des.getDataLength()) + 8 + describe.OffsetRow, writer.Type, writer.value);
+	}
+	public void writeData(long userId, int indexDescribe, Object value) throws IOException {
+		des.writeData(get_OffsetData(userId, indexDescribe), des.get_DataType_ByIndex(indexDescribe), value);
+	}
 	
     public long get_OffsetData(long userId, int indexDescribe) throws IOException {
         return des.getOffset_BeginData() + userId*(8+des.getDataLength()) + 8 + des.get_OffsetRow_of_Describe_ByIndex(indexDescribe);
@@ -95,15 +115,17 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 			throw new IOException("Database error "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe))+"!="+Type);
 	}
     
-	public void writeData(long userId, DB_WriteDatabase dataOperator) throws IOException {
-		des.writeData(get_OffsetData(userId, dataOperator.indexDescribe), dataOperator);
+	public Object readData(long userId,int indexDescribe) throws IOException {
+		DBDescribe describe=des.readDescribeByIndex(indexDescribe);
+		return des.readData(des.getOffset_BeginData() + userId*(8+des.getDataLength()) + 8 + describe.OffsetRow, describe.Type);
 	}
-    public void readData(long userId, int indexDescribe, DB_ReadDatabase reader) throws IOException {
-    	if(des.get_DataType_ByIndex(indexDescribe)==reader.Type)
-    		des.readData(get_OffsetData(userId, indexDescribe), reader);
-    	else
-    		throw new IOException("Database error DBGame_UserData → readData(long userId, int indexDescribe, DB_ReadDatabase reader) : " + DBDefine_DataType.getTypeName(reader.Type) + " != "+des.get_DataType_ByIndex(indexDescribe));
-    }
+	public Object readData(long userId,long offsetRow, byte Type) throws IOException {
+		return des.readData(des.getOffset_BeginData() + userId*(8+des.getDataLength()) + 8 + offsetRow, Type);
+	}
+	public void writeData(long userId,long offsetRow, byte Type, Object value) throws IOException {
+		des.writeData(des.getOffset_BeginData() + userId*(8+des.getDataLength()) + 8 + offsetRow, Type, value);
+	}
+
     
 	public void writeParsingRow(long userId, DBDescribe[] listDescribeTables, int numberDescribeTables, MessageSending messageSending) throws IOException {
 		for(int i=0;i<numberDescribeTables;i++) {
@@ -151,10 +173,7 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 	        }
 		}
 	}
-	public long getOffsetOfCredential(long userId) throws IOException {
-		rfData.seek(des.getOffset_BeginData() + userId*(8+des.getDataLength()));
-		return rfData.readLong();
-	}
+
 	
     public int getNumberColumn() throws IOException {return des.getNumberDescribe();}
 	
@@ -167,22 +186,24 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 			return sumData/dataLength+1;
 	}
 	
-	
+	public void changeFileName(short _tableId) throws IOException {
+		Path source = Paths.get(path);
+		Path newdir = Paths.get(PATH.DATABASE_FOLDER+"/"+_tableId+"/UserData");
+		Files.move(source, newdir.resolve(source.getFileName()),StandardCopyOption.REPLACE_EXISTING);
+	}
+
 	public void traceUserId(long userId) throws IOException {
 	    int numberColumn = des.getNumberDescribe();
-	    for(int i=0;i<numberColumn;i++)
-	        if(des.readValueData(get_OffsetData(userId, i), i) instanceof byte[])
-	            System.out.print(des.getColumnName(i)+"("+Arrays.toString((byte[])des.readValueData(get_OffsetData(userId, i), i))+")  ");
+	    Object value;
+	    for(int i=0;i<numberColumn;i++) {
+	    	value = readData(userId, i);
+	        if(value instanceof byte[])
+	            System.out.print(des.getColumnName(i)+"("+Arrays.toString((byte[])value)+")  ");
 	        else
-	            System.out.print(des.getColumnName(i)+"("+des.readValueData(get_OffsetData(userId, i), i)+")  ");
+	            System.out.print(des.getColumnName(i)+"("+value+")  ");
+	    }
 	    System.out.println("");
     }
-	public void traceDescribe() throws IOException {
-		DBDescribe[] list = des.readDescribes();
-		if(list!=null)
-			for(DBDescribe describe:list)
-				describe.trace();
-	}
 	
 	@Override public void close() {if(rfData!=null)try {rfData.close();rfData=null;} catch (IOException e) {e.printStackTrace();}}
 	@Override public void deleteFile() {try {Files.deleteIfExists(FileSystems.getDefault().getPath(path));} catch (IOException e) {e.printStackTrace();}}

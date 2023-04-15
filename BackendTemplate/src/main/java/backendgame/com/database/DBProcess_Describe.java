@@ -76,6 +76,10 @@ public class DBProcess_Describe {
 			DBDescribe describe;
 			for(int i=0;i<numberColumn;i++) {
 				describe=list[i];
+				
+				if(describe.Size<describe.DefaultData.length)
+					describe.Size = describe.DefaultData.length;
+				
 				describe.OffsetRow = dataLength;//Vị trí đúng của offset trước khi cộng Size
 				dataLength+=describe.Size;
 				
@@ -111,7 +115,8 @@ public class DBProcess_Describe {
 				}
 			}
 			
-
+			if(rfData.length() < offsetBeginData)
+				rfData.setLength(offsetBeginData);//Trường hợp String và Array init không đủ số byte → countRow bị sai
 		}
 	}
 	
@@ -170,43 +175,18 @@ public class DBProcess_Describe {
 	public int get_DataSize_ByIndex(int index) throws IOException {rfData.seek(offsetDescribe + 25 + index*100 + 10);return rfData.readInt();}
 	public byte get_DataType_ByIndex(int index) throws IOException {rfData.seek(offsetDescribe + 25 + index*100 + 14);return rfData.readByte();}
 	
-//	public boolean validateDataType_Boolean(int indexDescribe) throws IOException {
-//		byte dataType = get_DataType_ByIndex(indexDescribe);
-//		return 0<dataType && dataType<10;
-//	}
-//	public boolean validateDataType_Byte(int indexDescribe) throws IOException {
-//		byte dataType = get_DataType_ByIndex(indexDescribe);
-//		return 9<dataType && dataType<20;
-//	}
-//	public boolean validateDataType_Short(int indexDescribe) throws IOException {
-//		byte dataType = get_DataType_ByIndex(indexDescribe);
-//		return 19<dataType && dataType<40;
-//	}
-//	public boolean validateDataType_Integer(int indexDescribe) throws IOException {
-//		byte dataType = get_DataType_ByIndex(indexDescribe);
-//		return 39<dataType && dataType<80;
-//	}
-//	public boolean validateDataType_Long(int indexDescribe) throws IOException {
-//		byte dataType = get_DataType_ByIndex(indexDescribe);
-//		return 79<dataType && dataType<100;
-//	}
-//	public boolean validateDataType_ByteArray(int indexDescribe) throws IOException {
-//		byte dataType = get_DataType_ByIndex(indexDescribe);
-//		return 99<dataType;
-//	}
-
 	
 	
 	
-	public boolean validateDescribe(int indexDescribe,byte Type) throws IOException {
-		return Type == get_DataType_ByIndex(indexDescribe);
-	}
-	public boolean validateDescribe(String ColumnName,byte Type) throws IOException {
-		int index = findIndex_ByColumnName(ColumnName);
-		if(index==-1)
-			return false;
-		return Type == get_DataType_ByIndex(index);
-	}
+//	public boolean validateDescribe(int indexDescribe,byte Type) throws IOException {
+//		return Type == get_DataType_ByIndex(indexDescribe);
+//	}
+//	public boolean validateDescribe(String ColumnName,byte Type) throws IOException {
+//		int index = findIndex_ByColumnName(ColumnName);
+//		if(index==-1)
+//			return false;
+//		return Type == get_DataType_ByIndex(index);
+//	}
 
 	
 	
@@ -251,49 +231,11 @@ public class DBProcess_Describe {
 //	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void readData(long offset,DB_ReadDatabase data) throws IOException {
-        rfData.seek(offset);
-        switch (data.Type) {
-            case DBDefine_DataType.BOOLEAN:data.value=rfData.readBoolean();break;
-
-            case DBDefine_DataType.BYTE:
-            case DBDefine_DataType.STATUS:
-            case DBDefine_DataType.PERMISSION:
-            case DBDefine_DataType.AVARTAR:data.value=rfData.readByte();break;
-
-            case DBDefine_DataType.SHORT:data.value=rfData.readShort();break;
-
-            case DBDefine_DataType.FLOAT:data.value=rfData.readFloat();break;
-            case DBDefine_DataType.IPV4:
-            case DBDefine_DataType.INTEGER:data.value=rfData.readInt();break;
-
-            case DBDefine_DataType.DOUBLE:data.value=rfData.readDouble();break;
-
-            case DBDefine_DataType.USER_ID:
-            case DBDefine_DataType.TIMEMILI:
-            case DBDefine_DataType.LONG:data.value=rfData.readLong();break;
-
-            case DBDefine_DataType.ByteArray:
-            case DBDefine_DataType.LIST:
-                int size = rfData.readInt();
-                if(size>0) {
-                    data.value=new byte[size];
-                    rfData.read((byte[])data.value);
-                }else
-                    data.value=null;
-                break;
-            case DBDefine_DataType.STRING:data.value=rfData.readUTF();break;
-            case DBDefine_DataType.IPV6:
-                data.value = new byte[16];
-                rfData.read((byte[])data.value);
-                break;
-
-            default:
-                throw new IOException("Database error DBProcess_Describe → readData(long offset,DB_ReadDatabase data) " + DBDefine_DataType.getTypeName(data.Type));
-        }
+    	data.value = readData(offset, data.Type);
     }
-    public Object readValueData(long offsetData,int indexDescribe) throws IOException {
-        byte Type = get_DataType_ByIndex(indexDescribe);
-        rfData.seek(offsetData);
+    
+    public Object readData(long offset, byte Type) throws IOException {
+        rfData.seek(offset);
         switch (Type) {
             case DBDefine_DataType.BOOLEAN:return rfData.readBoolean();
 
@@ -332,16 +274,11 @@ public class DBProcess_Describe {
                 rfData.read(ipv6);
                 return ipv6;
             default:
-                throw new IOException("Database error DBProcess_Describe → readValueData(long offsetData,int indexDescribe) " + DBDefine_DataType.getTypeName(get_DataType_ByIndex(indexDescribe)));
+                throw new IOException("Database error DBProcess_Describe → readData(long offset, byte Type) " + DBDefine_DataType.getTypeName(Type));
         }
     }
-	
-    public void writeData(long offset,byte[] _data) throws IOException {
-    	rfData.seek(offset);
-    	rfData.write(_data);
-    }
-    public void writeData(long offset, int indexDescribe, Object value) throws IOException {
-    	byte Type = get_DataType_ByIndex(indexDescribe);
+    
+    public void writeData(long offset, byte Type, Object value) throws IOException {
     	rfData.seek(offset);
         switch (Type) {
             case DBDefine_DataType.BOOLEAN:rfData.writeBoolean((boolean) value);break;
@@ -390,59 +327,6 @@ public class DBProcess_Describe {
 
             default:
 				throw new IOException("Database error DBProcess_Describe → writeData(long offset, int indexDescribe, Object value) " + DBDefine_DataType.getTypeName(Type) + " : " + value);
-        }
-    	
-    	
-    }
-    public void writeData(long offset,DB_ReadDatabase dataOperator) throws IOException {
-        rfData.seek(offset);
-        switch (dataOperator.Type) {
-            case DBDefine_DataType.BOOLEAN:rfData.writeBoolean((boolean) dataOperator.value);break;
-
-            case DBDefine_DataType.BYTE:
-            case DBDefine_DataType.STATUS:
-            case DBDefine_DataType.PERMISSION:
-            case DBDefine_DataType.AVARTAR:
-                rfData.writeByte((byte) dataOperator.value);break;
-
-            case DBDefine_DataType.SHORT:
-                rfData.writeShort((short) dataOperator.value);break;
-
-            case DBDefine_DataType.FLOAT:
-                rfData.writeFloat((float) dataOperator.value);break;
-                
-            case DBDefine_DataType.IPV4:
-            case DBDefine_DataType.INTEGER:
-                rfData.writeInt((int) dataOperator.value);break;
-
-            case DBDefine_DataType.DOUBLE:
-                rfData.writeDouble((double) dataOperator.value);break;
-
-            case DBDefine_DataType.USER_ID:
-            case DBDefine_DataType.TIMEMILI:
-            case DBDefine_DataType.LONG:
-                rfData.writeLong((long) dataOperator.value);break;
-
-            case DBDefine_DataType.ByteArray:
-            case DBDefine_DataType.LIST:
-                byte[] _data = (byte[]) dataOperator.value;
-                if(_data==null)
-                    rfData.writeInt(0);
-                else {
-                    rfData.writeInt(_data.length);
-                    rfData.write(_data);
-                }
-                break;
-                
-            case DBDefine_DataType.STRING:
-                rfData.writeUTF((String) dataOperator.value);break;
-                
-            case DBDefine_DataType.IPV6:
-                if(dataOperator.value!=null && ((byte[])dataOperator.value).length==16)
-                    rfData.write((byte[])dataOperator.value);break;
-
-            default:
-                throw new IOException("Database error DBProcess_Describe → writeData(long offset,DB_ReadDatabase dataOperator) " + DBDefine_DataType.getTypeName(dataOperator.Type));
         }
     }
 	
@@ -501,24 +385,15 @@ public class DBProcess_Describe {
 	}
 	
 	
-	protected void trace() throws IOException {
-		System.out.println("***************************************************************");
+	public void trace() throws IOException {
 		System.out.println("File size : "+rfData.length());
 		System.out.println("OffsetDescribe : "+offsetDescribe);
 		System.out.println("DatalLength : "+getDataLength());
 		System.out.println("OffsetBeginData : "+getOffset_BeginData());
 		System.out.println("OffsetDefaultData : "+getOffset_DefaultData());
+		DBDescribe[] list = readDescribes();
+		for(DBDescribe describe:list)
+			describe.trace();
 		System.out.println("***************************************************************");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

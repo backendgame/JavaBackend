@@ -34,7 +34,6 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 	
 	public RandomAccessFile rfData;
 	public RandomAccessFile rfBTree;
-	public short tableId;
 	public DBGame_AccountLogin(short _tableId) throws FileNotFoundException {
 		tableId=_tableId;
 		path=PATH.DATABASE_FOLDER+"/"+_tableId+"/AccountLogin";
@@ -133,11 +132,34 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 		long[] listUserId = querryUserId(credential);
 		if(listUserId==null)
 			System.out.println("No User");
-		else
+		else {
 			for(long userId:listUserId)
 				traceInfo(userId, databaseUserData);
+		}
 	}
 	
+//	public void traceInfo(long userId, DBGame_UserData databaseUserData) throws IOException {
+//		long offsetCredential = databaseUserData.getOffsetOfCredential(userId);
+//		rfData.seek(offsetCredential);
+//		String credential=rfData.readUTF();
+//		byte databaseId = rfData.readBoolean()?rfData.readByte():-1;
+//		long userid = rfData.readLong();
+//		String password = databaseId==DatabaseId.SystemAccount?rfData.readUTF():null;
+//		byte status = rfData.readByte();
+//		long timeCreateAccount = rfData.readLong();
+//		
+//		
+//		System.out.println(DatabaseId.getName(databaseId)+"	status("+status+")	"+TimeManager.gI().getStringTime(timeCreateAccount)+"	Credential("+credential+")	userid("+userid+")	password("+password+")");
+//	}
+//	public void traceInfo(String credential, DBGame_UserData databaseUserData) throws IOException {
+//		long[] listUserId = querryUserId(credential);
+//		System.out.println(Arrays.toString(listUserId));
+//		if(listUserId==null)
+//			System.out.println("No User");
+//		else
+//			for(long userId:listUserId)
+//				traceInfo(userId, databaseUserData, list);
+//	}
 	public void traceInfo(long userId, DBGame_UserData databaseUserData) throws IOException {
 		long offsetCredential = databaseUserData.getOffsetOfCredential(userId);
 		rfData.seek(offsetCredential);
@@ -148,33 +170,12 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 		byte status = rfData.readByte();
 		long timeCreateAccount = rfData.readLong();
 		
-		
-		System.out.println(DatabaseId.getName(databaseId)+"	status("+status+")	"+TimeManager.gI().getStringTime(timeCreateAccount)+"	Credential("+credential+")	userid("+userid+")	password("+password+")");
-	}
-	public void traceInfo(String credential, DBGame_UserData databaseUserData, DBDescribe[] list) throws IOException {
-		long[] listUserId = querryUserId(credential);
-		if(listUserId==null)
-			System.out.println("No User");
-		else
-			for(long userId:listUserId)
-				traceInfo(userId, databaseUserData, list);
-	}
-	public void traceInfo(long userId, DBGame_UserData databaseUserData, DBDescribe[] list) throws IOException {
-		long offsetCredential = databaseUserData.getOffsetOfCredential(userId);
-		rfData.seek(offsetCredential);
-		String credential=rfData.readUTF();
-		byte databaseId = rfData.readBoolean()?rfData.readByte():-1;
-		long userid = rfData.readLong();
-		String password = databaseId==DatabaseId.SystemAccount?rfData.readUTF():null;
-		byte status = rfData.readByte();
-		long timeCreateAccount = rfData.readLong();
-		
-		
+		DBDescribe[] list = databaseUserData.des.readDescribes();
 		
 		System.out.print(DatabaseId.getName(databaseId)+"	status("+status+")	"+TimeManager.gI().getStringTime(timeCreateAccount)+"	Credential("+credential+")	userid("+userid+")	password("+password+")");
 		int numberColumn=databaseUserData.getNumberColumn();
 		for(int i=0;i<numberColumn;i++)
-			System.out.print("	"+list[i].ColumnName+"("+databaseUserData.des.readValueData(databaseUserData.get_OffsetData(userid, i), i)+")");
+			System.out.print("	"+list[i].ColumnName+"("+databaseUserData.readData(userid, i)+")");
 		
 		System.out.println();
 	}

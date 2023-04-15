@@ -2,7 +2,7 @@ package begame.onehit.web.table;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import backendgame.com.core.MessageReceiving;
 import backendgame.com.core.MessageSending;
@@ -19,7 +19,7 @@ public class Onehit_Table160_Config_DescribeTables extends BaseOnehit_VerifyToke
 	}
 	
 	private String getCloneName(String currentPath) {
-		for(int i=0;i<10;i++)
+		for(int i=0;i<100;i++)
 			if(new File(currentPath+i).exists()==false)
 				return currentPath+i;
 		return null;
@@ -30,9 +30,9 @@ public class Onehit_Table160_Config_DescribeTables extends BaseOnehit_VerifyToke
 		if(numberNewDescribeTables<0)
 			return mgValueNull;
 		
-		DBDescribe[] newDescribeTables = new DBDescribe[numberNewDescribeTables];
+		DBDescribe[] newDes = new DBDescribe[numberNewDescribeTables];
 		for(short i=0;i<numberNewDescribeTables;i++)
-			newDescribeTables[i].readMessage(messageReceiving);
+			newDes[i].readMessage(messageReceiving);
 		if(messageReceiving.validate()==false)
 			return mgVariableInvalid;
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,26 +42,55 @@ public class Onehit_Table160_Config_DescribeTables extends BaseOnehit_VerifyToke
 		try {
 			databaseOld=new DBGame_UserData(tableId);
 			String pathClone = getCloneName(databaseOld.path);
-			if(pathClone!=null) {
-				databaseNew=new DBGame_UserData(pathClone, new RandomAccessFile(pathClone, "rw"));
-				databaseNew.setDescribe(newDescribeTables);
+			if(pathClone==null)
+				throw new IOException("Can't not clone UserData -> UserData0-UserData99 is existed");
+			else{
+				DBDescribe[] oldDes = databaseOld.getDescribes();
 				
+				databaseNew=new DBGame_UserData(pathClone);
+				databaseNew.tableId=tableId;
+				databaseNew.setDescribe(newDes);
 				
-				
-				
+				////////////////////////////////////////////////////////////////////////////////////////////////setDescribe xong mới có dataLeng và defaultData
+				byte[] defaultData = databaseNew.des.getDefaultData();
+				long numberRow = databaseOld.countRow();
+				if(defaultData==null || defaultData.length==0)
+					for(long i=0;i<numberRow;i++)
+						databaseNew.setCredentialOffset(i, databaseOld.getOffsetOfCredential(i));
+				else {
+					for(long i=0;i<numberRow;i++)
+						databaseNew.reNewUser(i, databaseOld.getOffsetOfCredential(i), defaultData);
+					
+					ArrayList<DBDescribe> cloneDes = new ArrayList<>();
+					if(newDes!=null && oldDes!=null && newDes.length>0 && oldDes.length>0)
+						for(DBDescribe nDes:newDes)
+							for(DBDescribe oDes:oldDes)
+								if(nDes.Type==oDes.Type && nDes.ColumnName.equals(oDes.ColumnName))
+									cloneDes.add(nDes);
+					
+					if(cloneDes.size()>0)
+						for(DBDescribe dbDes:cloneDes) {
+							int offsetRow_OLD = databaseOld.des.findDescribe_ByCoulmnId(dbDes.ColumnName).OffsetRow;
+							for(long i=0;i<numberRow;i++)
+								databaseNew.writeData(i, dbDes.OffsetRow, dbDes.Type, databaseOld.readData(i, offsetRow_OLD, dbDes.Type));
+						}
+				}
+				////////////////////////////////////////////////////////////////////////////////////////////////
 				databaseOld.close();
 				databaseNew.close();
+				
+				databaseOld.deleteFile();
+				databaseNew.changeFileName(tableId);//Đổi tên file
+				return mgOK;
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-		
 		if(databaseOld!=null)
 			databaseOld.close();
 		if(databaseNew!=null)
 			databaseNew.close();
-		
 		return mgOK;
 	}
 	
