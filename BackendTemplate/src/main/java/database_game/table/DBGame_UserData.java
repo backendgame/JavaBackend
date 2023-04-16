@@ -358,8 +358,10 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 		System.out.printf("%15s", "");
 		DBDescribe[] list = des.readDescribes();
 		for (DBDescribe describe : list)
-			if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.IPV6 || describe.Type==DBDefine_DataType.STRING)
-				System.out.printf("  %25.25s", describe.ColumnName);
+			if(describe.Type==DBDefine_DataType.STRING)
+				System.out.printf("  %15.15s", describe.ColumnName);
+			else if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.IPV6)
+				System.out.printf("  %30.30s", describe.ColumnName);
 			else
 				System.out.printf("  %12.12s", describe.ColumnName);
 		System.out.println("");
@@ -383,9 +385,9 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 			value = readData(userId, i);
 			type=des.get_DataType_ByIndex(i);
 			if(type==DBDefine_DataType.STRING)
-				System.out.printf("  %25.25s", value);
+				System.out.printf("  %15.15s", value);
 			else if(type==DBDefine_DataType.ByteArray || type==DBDefine_DataType.LIST || type==DBDefine_DataType.IPV6)
-				System.out.printf("  %25.25s", Arrays.toString((byte[]) value));
+				System.out.printf("  %30.30s", Arrays.toString((byte[]) value));
 			else
 				System.out.printf("  %12.12s", value);
 		}

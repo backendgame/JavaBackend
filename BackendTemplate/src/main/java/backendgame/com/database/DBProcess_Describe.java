@@ -236,99 +236,70 @@ public class DBProcess_Describe {
     }
     
     public Object readData(long offset, byte Type) throws IOException {
-        rfData.seek(offset);
-        switch (Type) {
-            case DBDefine_DataType.BOOLEAN:return rfData.readBoolean();
-
-            case DBDefine_DataType.BYTE:
-            case DBDefine_DataType.STATUS:
-            case DBDefine_DataType.PERMISSION:
-            case DBDefine_DataType.AVARTAR:return rfData.readByte();
-
-            case DBDefine_DataType.SHORT:return rfData.readShort();
-
-            case DBDefine_DataType.FLOAT:return rfData.readFloat();
-            
-            case DBDefine_DataType.IPV4:
-            case DBDefine_DataType.INTEGER:return rfData.readInt();
-
-            case DBDefine_DataType.DOUBLE:return rfData.readDouble();
-
-            case DBDefine_DataType.USER_ID:
-            case DBDefine_DataType.TIMEMILI:
-            case DBDefine_DataType.LONG:return rfData.readLong();
-
-            case DBDefine_DataType.STRING:return rfData.readUTF();
-            
-            case DBDefine_DataType.ByteArray:
-            case DBDefine_DataType.LIST:
-                int size = rfData.readInt();
-                if(size>0) {
-                    byte[] result = new byte[size];
-                    rfData.read(result);
-                    return result;
-                }else
-                    return null;
-
-            case DBDefine_DataType.IPV6:
-                byte[] ipv6 = new byte[16];
-                rfData.read(ipv6);
-                return ipv6;
-            default:
-                throw new IOException("Database error DBProcess_Describe → readData(long offset, byte Type) " + DBDefine_DataType.getTypeName(Type));
-        }
+    	rfData.seek(offset);
+		if(0<Type && Type<10)
+			return rfData.readBoolean();
+		else if(9<Type && Type<20)
+			return rfData.readByte();
+		else if(19<Type && Type<40)
+			return rfData.readShort();
+		else if(39<Type && Type<60)
+			return rfData.readInt();
+		else if(59<Type && Type<80)
+			return rfData.readFloat();
+		else if(79<Type && Type<90)
+			return rfData.readLong();
+		else if(89<Type && Type<100)
+			return rfData.readDouble();
+		else if(Type==DBDefine_DataType.ByteArray || Type==DBDefine_DataType.LIST) {
+            int size = rfData.readInt();
+            if(size>0) {
+                byte[] result = new byte[size];
+                rfData.read(result);
+                return result;
+            }else
+                return null;
+		}else if(Type==DBDefine_DataType.STRING)
+			return rfData.readUTF();
+		else if(Type==DBDefine_DataType.IPV6) {
+			 byte[] ipv6 = new byte[16];
+             rfData.read(ipv6);
+             return ipv6;
+		}else
+			throw new IOException("Database error DBProcess_Describe → readData(long offset, byte Type) " + DBDefine_DataType.getTypeName(Type));
     }
     
     public void writeData(long offset, byte Type, Object value) throws IOException {
     	rfData.seek(offset);
-        switch (Type) {
-            case DBDefine_DataType.BOOLEAN:rfData.writeBoolean((boolean) value);break;
-
-            case DBDefine_DataType.BYTE:
-            case DBDefine_DataType.STATUS:
-            case DBDefine_DataType.PERMISSION:
-            case DBDefine_DataType.AVARTAR:
-                rfData.writeByte((byte) value);break;
-
-            case DBDefine_DataType.SHORT:
-                rfData.writeShort((short) value);break;
-
-            case DBDefine_DataType.FLOAT:
-                rfData.writeFloat((float) value);break;
-                
-            case DBDefine_DataType.IPV4:
-            case DBDefine_DataType.INTEGER:
-                rfData.writeInt((int) value);break;
-
-            case DBDefine_DataType.DOUBLE:
-                rfData.writeDouble((double) value);break;
-
-            case DBDefine_DataType.USER_ID:
-            case DBDefine_DataType.TIMEMILI:
-            case DBDefine_DataType.LONG:
-                rfData.writeLong((long) value);break;
-
-            case DBDefine_DataType.ByteArray:
-            case DBDefine_DataType.LIST:
-                byte[] _data = (byte[]) value;
-                if(_data==null)
-                    rfData.writeInt(0);
-                else {
-                    rfData.writeInt(_data.length);
-                    rfData.write(_data);
-                }
-                break;
-                
-            case DBDefine_DataType.STRING:
-                rfData.writeUTF((String) value);break;
-                
-            case DBDefine_DataType.IPV6:
-                if(value!=null && ((byte[])value).length==16)
-                    rfData.write((byte[])value);break;
-
-            default:
-				throw new IOException("Database error DBProcess_Describe → writeData(long offset, int indexDescribe, Object value) " + DBDefine_DataType.getTypeName(Type) + " : " + value);
-        }
+		if(0<Type && Type<10)
+			rfData.writeBoolean((boolean) value);
+		else if(9<Type && Type<20)
+			rfData.writeByte((byte) value);
+		else if(19<Type && Type<40)
+			rfData.writeShort((short) value);
+		else if(39<Type && Type<60)
+			rfData.writeInt((int) value);
+		else if(59<Type && Type<80)
+			rfData.writeFloat((float) value);
+		else if(79<Type && Type<90)
+			rfData.writeLong((long) value);
+		else if(89<Type && Type<100)
+			rfData.writeDouble((double) value);
+		else if(Type==DBDefine_DataType.ByteArray || Type==DBDefine_DataType.LIST) {
+            byte[] _data = (byte[]) value;
+            if(_data==null)
+                rfData.writeInt(0);
+            else {
+                rfData.writeInt(_data.length);
+                rfData.write(_data);
+            }
+		}else if(Type==DBDefine_DataType.STRING)
+			rfData.writeUTF((String) value);
+		else if(Type==DBDefine_DataType.IPV6) {
+            if(value!=null && ((byte[])value).length==16)
+                rfData.write((byte[])value);
+		}else
+			throw new IOException("Database error DBProcess_Describe → writeData(long offset, int indexDescribe, Object value) " + DBDefine_DataType.getTypeName(Type) + " : " + value);
     }
 	
 	public boolean processBoolean(long offsetData, byte operator,boolean value) throws IOException {
@@ -366,45 +337,31 @@ public class DBProcess_Describe {
 	}
 	
 	public Object process(long offsetData, byte operator, byte Type, Object object) throws IOException {
-		switch (Type) {
-			case DBDefine_DataType.BOOLEAN:
-				return new DBOperator_Boolean(rfData).process(offsetData, operator, (boolean) object);
-
-			case DBDefine_DataType.BYTE:
-			case DBDefine_DataType.STATUS:
-			case DBDefine_DataType.PERMISSION:
-			case DBDefine_DataType.AVARTAR:
-				return new DBOperator_Byte(rfData).process(offsetData, operator, (byte) object);
-
-			case DBDefine_DataType.SHORT:
-				return new DBOperator_Short(rfData).process(offsetData, operator, (short) object);
-
-			case DBDefine_DataType.FLOAT:
-				return new DBOperator_Float(rfData).process(offsetData, operator, (float) object);
-			case DBDefine_DataType.IPV4:
-			case DBDefine_DataType.INTEGER:
-				return new DBOperator_Integer(rfData).process(offsetData, operator, (int) object);
-
-			case DBDefine_DataType.DOUBLE:
-				return new DBOperator_Double(rfData).process(offsetData, operator, (double) object);
-
-			case DBDefine_DataType.USER_ID:
-			case DBDefine_DataType.TIMEMILI:
-			case DBDefine_DataType.LONG:
-				return new DBOperator_Long(rfData).process(offsetData, operator, (long) object);
-
-			case DBDefine_DataType.ByteArray:
-				return new DBOperator_ByteArrays(rfData).process(offsetData, operator, (byte[]) object);
-			case DBDefine_DataType.LIST:
-				return new DBOperator_List(rfData).process(offsetData, operator, (byte[]) object);
-			case DBDefine_DataType.STRING:
-				return new DBOperator_String(rfData).process(offsetData, operator, (String) object);
-			case DBDefine_DataType.IPV6:
-				return new DBOperator_IPV6(rfData).process(offsetData, operator, (byte[]) object);
-
-			default:
-				throw new IOException("Database error DBProcess_Describe → process(long offsetData, byte pperator, byte Type, Object object) " + DBDefine_DataType.getTypeName(Type));
-		}
+		rfData.seek(offsetData);
+		if(0<Type && Type<10)
+			return new DBOperator_Boolean(rfData).process(offsetData, operator, (boolean) object);
+		else if(9<Type && Type<20)
+			return new DBOperator_Byte(rfData).process(offsetData, operator, (byte) object);
+		else if(19<Type && Type<40)
+			return new DBOperator_Short(rfData).process(offsetData, operator, (short) object);
+		else if(39<Type && Type<60)
+			return new DBOperator_Integer(rfData).process(offsetData, operator, (int) object);
+		else if(59<Type && Type<80)
+			return new DBOperator_Float(rfData).process(offsetData, operator, (float) object);
+		else if(79<Type && Type<90)
+			return new DBOperator_Long(rfData).process(offsetData, operator, (long) object);
+		else if(89<Type && Type<100)
+			return new DBOperator_Double(rfData).process(offsetData, operator, (double) object);
+		else if(Type==DBDefine_DataType.ByteArray)
+			return new DBOperator_ByteArrays(rfData).process(offsetData, operator, (byte[]) object);
+		else if(Type==DBDefine_DataType.LIST)
+			return new DBOperator_List(rfData).process(offsetData, operator, (byte[]) object);
+		else if(Type==DBDefine_DataType.STRING)
+			return new DBOperator_String(rfData).process(offsetData, operator, (String) object);
+		else if(Type==DBDefine_DataType.IPV6)
+			return new DBOperator_IPV6(rfData).process(offsetData, operator, (byte[]) object);
+		else
+			throw new IOException("Database error DBProcess_Describe → process(long offsetData, byte pperator, byte Type, Object object) " + DBDefine_DataType.getTypeName(Type));
 	}
 
 	public Object processValidateType(long offsetData, DB_WriteDatabase writer) throws IOException {
@@ -427,37 +384,38 @@ public class DBProcess_Describe {
 		System.out.println("OffsetDefaultData : "+getOffset_DefaultData());
 		System.out.println("-----------------------------------------------------------------");
 		DBDescribe[] list = readDescribes();
-		int maxSpace=0;
+		int maxSpace = 0;
 		for(DBDescribe describe:list)
 			if(describe.ColumnName.length()>maxSpace)
-				maxSpace=describe.ColumnName.length();
-		maxSpace = maxSpace + 15;
-		System.out.printf("%"+maxSpace+"."+maxSpace+"s%12.12s%8.8s%12.12s   DefaultValue\n","Type","OffsetRow","ViewId","Permission");
+				maxSpace = describe.ColumnName.length();
+		if(maxSpace>20)
+			maxSpace=20;
 		
 		
+		System.out.printf("%"+(maxSpace+20)+"."+(maxSpace+20)+"s%12.12s%8.8s%12.12s   DefaultValue\n","Type","OffsetRow","ViewId","Permission");
 		
-		int space;
+		
 		String strType;
 		for(DBDescribe describe:list) {
-			space=describe.ColumnName.length();
-			if(space>15) {
-				space=15;
-				System.out.print(describe.ColumnName.substring(0, 14));
-			}else
+			if(describe.ColumnName.length()>maxSpace) {
+				System.out.print(describe.ColumnName.substring(0, maxSpace-3)+"...");
+			}else {
 				System.out.print(describe.ColumnName);
+				for(int i=describe.ColumnName.length();i<maxSpace;i++)
+					System.out.print(" ");
+			}
 			
 			strType = DBDefine_DataType.getTypeName(describe.Type);
 			if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.STRING)
 				strType = strType+"("+describe.Size+")";
 			
-			space = maxSpace - space;
 			if(describe.DefaultData==null)
-				System.out.printf("%"+space+"."+space+"s%12.12s%8.8s%12.12s   Null\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
+				System.out.printf("%20.20s%12.12s%8.8s%12.12s   Null\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
 			else
 				if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.IPV6)
-					System.out.printf("%"+space+"."+space+"s%12.12s%8.8s%12.12s   "+Arrays.toString((byte[])describe.getDefaultData())+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
+					System.out.printf("%20.20s%12.12s%8.8s%12.12s   "+Arrays.toString((byte[])describe.getDefaultData())+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
 				else
-					System.out.printf("%"+space+"."+space+"s%12.12s%8.8s%12.12s   "+describe.getDefaultData()+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
+					System.out.printf("%20.20s%12.12s%8.8s%12.12s   "+describe.getDefaultData()+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
 		}
 	}
 }

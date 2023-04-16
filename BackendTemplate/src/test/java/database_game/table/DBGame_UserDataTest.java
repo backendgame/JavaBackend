@@ -91,7 +91,7 @@ class DBGame_UserDataTest {
         
         describe=new DBDescribe();
         describe.Type = DBDefine_DataType.ByteArray;
-        describe.Size = 5;
+        describe.Size = 1024;
         describe.ColumnName = "Column8";
         byte[] dataTmp = new byte[describe.Size];
         random.nextBytes(dataTmp);
@@ -123,7 +123,13 @@ class DBGame_UserDataTest {
         databaseUserData.writeData(15, 7, "backendgame");
         databaseUserData.writeData(15, 8, new byte[] {1,2,3,4,5});
         
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+        //Bắt đầu code Operators chỗ này
         databaseUserData.processShort(16, 2, DBOperator_Short.Addition, (short) 20);
+        
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
         
         databaseUserData.traceTitleRow();
         for(int i=10;i<20;i++)
