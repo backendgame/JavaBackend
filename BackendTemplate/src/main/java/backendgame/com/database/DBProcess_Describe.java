@@ -2,6 +2,7 @@ package backendgame.com.database;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.database.entity.DB_ReadDatabase;
@@ -330,6 +331,39 @@ public class DBProcess_Describe {
         }
     }
 	
+	public boolean processBoolean(long offsetData, byte operator,boolean value) throws IOException {
+		return new DBOperator_Boolean(rfData).process(offsetData, operator, value);
+	}
+	public byte processByte(long offsetData, byte operator,byte value) throws IOException {
+		return new DBOperator_Byte(rfData).process(offsetData, operator, value);
+	}
+	public short processShort(long offsetData, byte operator,short value) throws IOException {
+		return new DBOperator_Short(rfData).process(offsetData, operator, value);
+	}
+	public float processFloat(long offsetData, byte operator,float value) throws IOException {
+		return new DBOperator_Float(rfData).process(offsetData, operator, value);
+	}
+	public int processInt(long offsetData, byte operator,int value) throws IOException {
+		return new DBOperator_Integer(rfData).process(offsetData, operator, value);
+	}
+	public double processDouble(long offsetData, byte operator,double value) throws IOException {
+		return new DBOperator_Double(rfData).process(offsetData, operator, value);
+	}
+	public long processLong(long offsetData, byte operator,long value) throws IOException {
+		return new DBOperator_Long(rfData).process(offsetData, operator, value);
+	}
+	public byte[] processByteArray(long offsetData, byte operator,byte[] value) throws IOException {
+		return new DBOperator_ByteArrays(rfData).process(offsetData, operator, value);
+	}
+	public byte[] processList(long offsetData, byte operator,byte[] value) throws IOException {
+		return new DBOperator_List(rfData).process(offsetData, operator, value);
+	}
+	public String processString(long offsetData, byte operator,String value) throws IOException {
+		return new DBOperator_String(rfData).process(offsetData, operator, value);
+	}
+	public byte[] processIpV6(long offsetData, byte operator,byte[] value) throws IOException {
+		return new DBOperator_IPV6(rfData).process(offsetData, operator, value);
+	}
 	
 	public Object process(long offsetData, byte operator, byte Type, Object object) throws IOException {
 		switch (Type) {
@@ -391,9 +425,39 @@ public class DBProcess_Describe {
 		System.out.println("DatalLength : "+getDataLength());
 		System.out.println("OffsetBeginData : "+getOffset_BeginData());
 		System.out.println("OffsetDefaultData : "+getOffset_DefaultData());
+		System.out.println("-----------------------------------------------------------------");
 		DBDescribe[] list = readDescribes();
+		int maxSpace=0;
 		for(DBDescribe describe:list)
-			describe.trace();
-		System.out.println("***************************************************************");
+			if(describe.ColumnName.length()>maxSpace)
+				maxSpace=describe.ColumnName.length();
+		maxSpace = maxSpace + 15;
+		System.out.printf("%"+maxSpace+"."+maxSpace+"s%12.12s%8.8s%12.12s   DefaultValue\n","Type","OffsetRow","ViewId","Permission");
+		
+		
+		
+		int space;
+		String strType;
+		for(DBDescribe describe:list) {
+			space=describe.ColumnName.length();
+			if(space>15) {
+				space=15;
+				System.out.print(describe.ColumnName.substring(0, 14));
+			}else
+				System.out.print(describe.ColumnName);
+			
+			strType = DBDefine_DataType.getTypeName(describe.Type);
+			if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.STRING)
+				strType = strType+"("+describe.Size+")";
+			
+			space = maxSpace - space;
+			if(describe.DefaultData==null)
+				System.out.printf("%"+space+"."+space+"s%12.12s%8.8s%12.12s   Null\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
+			else
+				if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.IPV6)
+					System.out.printf("%"+space+"."+space+"s%12.12s%8.8s%12.12s   "+Arrays.toString((byte[])describe.getDefaultData())+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
+				else
+					System.out.printf("%"+space+"."+space+"s%12.12s%8.8s%12.12s   "+describe.getDefaultData()+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
+		}
 	}
 }
