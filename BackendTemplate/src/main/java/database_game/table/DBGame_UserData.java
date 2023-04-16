@@ -193,6 +193,7 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 	}
 
 	public void traceUserId(long userId) throws IOException {
+		System.out.print("UserID("+userId+")	");
 	    int numberColumn = des.getNumberDescribe();
 	    Object value;
 	    for(int i=0;i<numberColumn;i++) {

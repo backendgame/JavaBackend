@@ -4,15 +4,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class DBOperator_Byte extends DBOperator{
-	public static final byte SET = 1;
-	
-	public static final byte ADD = 10;
-	
-	public static final byte AddPositive = 20;
-	
-	public static final byte AddInBound = 50;
-	
-	
 	private RandomAccessFile rfData;
 	public DBOperator_Byte(RandomAccessFile _rfData) {
 		rfData=_rfData;
@@ -20,24 +11,23 @@ public class DBOperator_Byte extends DBOperator{
 	
 	public byte process(long offset, byte operator, byte value) throws IOException {
 		switch (operator) {
-			case SET:
-				rfData.seek(offset);
-				rfData.writeByte(value);
-				return value;
-
-			case ADD:return add(offset, value);
-			
+			case Addition:return add(offset, value);
 			case AddPositive:return addPositive(offset, value);
-				
 			case AddInBound:return add_InBound(offset, value);
-			
+			case Multiplication: return multiplication(offset, value);
+			case Division: return division(offset, value);
+			case Modulus: return modulus(offset, value);
+			case AND: return and(offset, value);
+			case OR: return or(offset, value);
+			case NOT: return not(offset, value);
+			case XOR: return xor(offset, value);
+			case NAND: return nand(offset, value);
+			case LeftShift: return leftShift(offset, value);
+			case RightShift: return rightShift(offset, value);
 			default:
 				break;
 		}
-		
-		
-		
-	    return 0;
+		return 0;
 	}
 	
 	public byte add(long offset, byte value) throws IOException {
@@ -79,4 +69,154 @@ public class DBOperator_Byte extends DBOperator{
 		rfData.writeByte(result);
 		return result;
 	}
+	public byte multiplication(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue * value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte division(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue / value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte modulus(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue % value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte and(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue & value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte or(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue | value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte not(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte result = (byte) (~value);
+
+		if(value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte xor(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue ^ value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte nand(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (~(oldValue & value));
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte leftShift(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue << value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+	public byte rightShift(long offset, byte value) throws IOException {
+		rfData.seek(offset);
+		byte oldValue = rfData.readByte();
+		byte result = (byte) (oldValue >> value);
+
+		if(oldValue>0 && value>0 && result<=0)
+			result=Byte.MAX_VALUE;
+
+		if(oldValue<0 && value<0 && result>=0)
+			result=Byte.MIN_VALUE;
+
+		rfData.seek(offset);
+		rfData.writeByte(result);
+		return result;
+	}
+
 }

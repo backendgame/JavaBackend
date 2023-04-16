@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
+import backendgame.com.database.operator.DBOperator_Short;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -113,7 +114,9 @@ class DBGame_UserDataTest {
         
         databaseUserData.writeData(15, 0, false);
 //        databaseUserData.writeData(15, 1, (byte)99);
-        databaseUserData.process(15, 1, DBOperator_Byte.ADD, DBDefine_DataType.BYTE, (byte)100);
+        databaseUserData.process(15, 1, DBOperator_Byte.Division, DBDefine_DataType.BYTE, (byte)100);
+        databaseUserData.process(15, "Column2", DBOperator_Short.Addition, DBDefine_DataType.SHORT, (short)100);
+
         databaseUserData.writeData(15, 2, (short)32678);
         databaseUserData.writeData(15, 3, 88.99f);
         databaseUserData.writeData(15, 4, (int)1111);
@@ -136,7 +139,7 @@ class DBGame_UserDataTest {
     
     @AfterEach void tearDown() throws Exception {
         databaseUserData.close();
-        databaseUserData.deleteFile();
+//        databaseUserData.deleteFile();
         System.out.println("Finish : "+(System.currentTimeMillis()-timeBegin));
     }
 }
