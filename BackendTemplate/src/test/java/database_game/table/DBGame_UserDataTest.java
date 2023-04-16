@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.database.DBDescribe;
 import backendgame.com.database.operator.DBOperator_Byte;
+import backendgame.com.database.operator.DBOperator_Short;
 import begame.config.PATH;
 
 class DBGame_UserDataTest {
@@ -36,14 +37,14 @@ class DBGame_UserDataTest {
         describe=new DBDescribe();
         describe.Type = DBDefine_DataType.BOOLEAN;
         describe.Size = 1;
-        describe.ColumnName = "Column0";
+        describe.ColumnName = "Cột một";
         describe.loadDefaultData(true);
         listRandom[count++]=describe;
         
         describe=new DBDescribe();
         describe.Type = DBDefine_DataType.BYTE;
         describe.Size = 1;
-        describe.ColumnName = "Column1";
+        describe.ColumnName = "Cộ Số 2";
         describe.loadDefaultData((byte)3);
         listRandom[count++]=describe;
         
@@ -91,7 +92,7 @@ class DBGame_UserDataTest {
         
         describe=new DBDescribe();
         describe.Type = DBDefine_DataType.ByteArray;
-        describe.Size = 5;
+        describe.Size = 1024;
         describe.ColumnName = "Column8";
         byte[] dataTmp = new byte[describe.Size];
         random.nextBytes(dataTmp);
@@ -100,9 +101,9 @@ class DBGame_UserDataTest {
         listRandom[count++]=describe;
         
         
-        for(int i=0;i<listRandom.length;i++)
-        	listRandom[i].trace();
-        System.out.println("********************************************************************************");
+//        for(int i=0;i<listRandom.length;i++)
+//        	listRandom[i].trace();
+//        System.out.println("********************************************************************************");
         
         databaseUserData.setDescribe(listRandom);
         
@@ -125,6 +126,15 @@ class DBGame_UserDataTest {
         databaseUserData.writeData(15, 7, "backendgame");
         databaseUserData.writeData(15, 8, new byte[] {1,2,3,4,5});
         
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+        //Bắt đầu code Operators chỗ này
+        databaseUserData.processShort(16, 2, DBOperator_Short.Addition, (short) 20);
+        
+        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
+        
+        databaseUserData.traceTitleRow();
         for(int i=10;i<20;i++)
         	databaseUserData.traceUserId(i);
     }

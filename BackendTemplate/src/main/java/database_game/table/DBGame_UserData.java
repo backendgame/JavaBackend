@@ -94,6 +94,168 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
     
     
     
+    
+    
+    ///Boolean////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public boolean processBoolean(long userId, int indexDescribe, byte operator,boolean value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.BOOLEAN)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processBoolean(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public boolean processBoolean(long userId, String columnName, byte operator,boolean value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processBoolean(userId, indexDescribe, operator, value);
+	}
+	
+	///Byte///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public byte processByte(long userId, int indexDescribe, byte operator,byte value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.BYTE)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processByte(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public byte processByte(long userId, String columnName, byte operator,byte value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processByte(userId, indexDescribe, operator, value);
+	}
+	
+	///Short//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public short processShort(long userId, int indexDescribe, byte operator,short value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.SHORT)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processShort(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public short processShort(long userId, String columnName, byte operator,short value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processShort(userId, indexDescribe, operator, value);
+	}
+	
+	///Float//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public float processFloat(long userId, int indexDescribe, byte operator,float value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.FLOAT)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processFloat(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public float processFloat(long userId, String columnName, byte operator,float value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processFloat(userId, indexDescribe, operator, value);
+	}
+	
+	///Integer////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public int processInt(long userId, int indexDescribe, byte operator,int value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.INTEGER)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processInt(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public int processInt(long userId, String columnName, byte operator,int value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processInt(userId, indexDescribe, operator, value);
+	}
+	
+	///Double/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public double processDouble(long userId, int indexDescribe, byte operator,double value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.DOUBLE)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processDouble(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public double processDouble(long userId, String columnName, byte operator,double value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processDouble(userId, indexDescribe, operator, value);
+	}
+	
+	///Long///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public long processLong(long userId, int indexDescribe, byte operator,long value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.LONG)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processLong(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public long processLong(long userId, String columnName, byte operator,long value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processLong(userId, indexDescribe, operator, value);
+	}
+	
+	///ByteArray//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public byte[] processByteArray(long userId, int indexDescribe, byte operator,byte[] value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.ByteArray)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processByteArray(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public byte[] processByteArray(long userId, String columnName, byte operator,byte[] value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processByteArray(userId, indexDescribe, operator, value);
+	}
+	///List///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public byte[] processList(long userId, int indexDescribe, byte operator,byte[] value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.LIST)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processList(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public byte[] processList(long userId, String columnName, byte operator,byte[] value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processList(userId, indexDescribe, operator, value);
+	}
+	///String/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public String processString(long userId, int indexDescribe, byte operator,String value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.STRING)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processString(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public String processString(long userId, String columnName, byte operator,String value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processString(userId, indexDescribe, operator, value);
+	}
+	///IpV6///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public byte[] processIpV6(long userId, int indexDescribe, byte operator,byte[] value) throws IOException {
+		if(des.get_DataType_ByIndex(indexDescribe)!=DBDefine_DataType.IPV6)
+			throw new IOException("Database error "+getClass().getSimpleName()+"→ processBoolean(long userId, int indexDescribe, byte operator,boolean value) : "+DBDefine_DataType.getTypeName(des.get_DataType_ByIndex(indexDescribe)));
+		return des.processIpV6(get_OffsetData(userId, indexDescribe), operator, value);
+	}
+	public byte[] processIpV6(long userId, String columnName, byte operator,byte[] value) throws IOException {
+		int indexDescribe = des.findIndex_ByColumnName(columnName);//Low performance
+		if(indexDescribe==-1)
+			throw new IOException("Column("+columnName+") is not exist");
+		return processIpV6(userId, indexDescribe, operator, value);
+	}
+    
+    
+	
+	
+	
+	
+    
+    
+    
+    
 	public Object processValidate(long userId, int indexDescribe, String columnName, byte operator, byte Type, Object value) throws IOException {
 		if (Type != des.get_DataType_ByIndex(indexDescribe) || des.getColumnName(indexDescribe).equals(columnName)==false) {
 			indexDescribe = des.findIndex_ByColumnName(columnName);
@@ -128,49 +290,39 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 
     
 	public void writeParsingRow(long userId, DBDescribe[] listDescribeTables, int numberDescribeTables, MessageSending messageSending) throws IOException {
+		int Type;
 		for(int i=0;i<numberDescribeTables;i++) {
 			messageSending.writeByte(listDescribeTables[i].Type);
 			seekTo_OffsetData(userId, i);
 			
-	        switch (listDescribeTables[i].Type) {
-                case DBDefine_DataType.BOOLEAN:messageSending.writeBoolean(rfData.readBoolean());break;
-
-                case DBDefine_DataType.BYTE:
-                case DBDefine_DataType.STATUS:
-                case DBDefine_DataType.PERMISSION:
-                case DBDefine_DataType.AVARTAR:messageSending.writeByte(rfData.readByte());break;
-
-                case DBDefine_DataType.SHORT:messageSending.writeShort(rfData.readShort());break;
-
-                case DBDefine_DataType.FLOAT:messageSending.writeFloat(rfData.readFloat());break;
-                
-                case DBDefine_DataType.IPV4:
-                case DBDefine_DataType.INTEGER:messageSending.writeInt(rfData.readInt());break;
-
-                case DBDefine_DataType.DOUBLE:messageSending.writeDouble(rfData.readDouble());break;
-
-                case DBDefine_DataType.USER_ID:
-                case DBDefine_DataType.TIMEMILI:
-                case DBDefine_DataType.LONG:messageSending.writeLong(rfData.readLong());break;
-
-                case DBDefine_DataType.STRING:messageSending.writeString(rfData.readUTF());break;
-	            
-	            case DBDefine_DataType.ByteArray:
-                case DBDefine_DataType.LIST:
-                    int size = rfData.readInt();
-                    byte[] result = new byte[size];
-                    rfData.read(result);
-                    messageSending.writeByteArray(result);
-                    break;
-	            
-                case DBDefine_DataType.IPV6:
-                    byte[] ipv6 = new byte[16];
-                    rfData.read(ipv6);
-                    messageSending.writeSpecialArray_WithoutLength(ipv6);
-                    break;
-	            default:
-	                throw new IOException("Database error "+this.getClass().getSimpleName()+" → writeParsingRow " + DBDefine_DataType.getTypeName(listDescribeTables[i].Type));
-	        }
+			Type = listDescribeTables[i].Type;
+			if(0<Type && Type<10)
+				messageSending.writeBoolean(rfData.readBoolean());
+			else if(9<Type && Type<20)
+				messageSending.writeByte(rfData.readByte());
+			else if(19<Type && Type<40)
+				messageSending.writeShort(rfData.readShort());
+			else if(39<Type && Type<60)
+				messageSending.writeInt(rfData.readInt());
+			else if(59<Type && Type<80)
+				messageSending.writeFloat(rfData.readFloat());
+			else if(79<Type && Type<90)
+				messageSending.writeLong(rfData.readLong());
+			else if(89<Type && Type<100)
+				messageSending.writeDouble(rfData.readDouble());
+			else if(Type==DBDefine_DataType.ByteArray || Type==DBDefine_DataType.LIST) {
+                int size = rfData.readInt();
+                byte[] result = new byte[size];
+                rfData.read(result);
+                messageSending.writeByteArray(result);
+			}else if(Type==DBDefine_DataType.STRING)
+				messageSending.writeString(rfData.readUTF());
+			else if(Type==DBDefine_DataType.IPV6) {
+				 byte[] ipv6 = new byte[16];
+                 rfData.read(ipv6);
+                 messageSending.writeSpecialArray_WithoutLength(ipv6);
+			}else
+				throw new IOException("Database error "+this.getClass().getSimpleName()+" → writeParsingRow " + DBDefine_DataType.getTypeName(listDescribeTables[i].Type));
 		}
 	}
 
@@ -190,6 +342,19 @@ public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getData
 		Path source = Paths.get(path);
 		Path newdir = Paths.get(PATH.DATABASE_FOLDER+"/"+_tableId+"/UserData");
 		Files.move(source, newdir.resolve(source.getFileName()),StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	public void traceTitleRow() throws IOException {
+		System.out.printf("%15s", "");
+		DBDescribe[] list = des.readDescribes();
+		for (DBDescribe describe : list)
+			if(describe.Type==DBDefine_DataType.STRING)
+				System.out.printf("  %15.15s", describe.ColumnName);
+			else if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.IPV6)
+				System.out.printf("  %30.30s", describe.ColumnName);
+			else
+				System.out.printf("  %12.12s", describe.ColumnName);
+		System.out.println("");
 	}
 
 	public void traceUserId(long userId) throws IOException {

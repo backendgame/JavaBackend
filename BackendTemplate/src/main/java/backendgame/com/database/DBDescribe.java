@@ -89,49 +89,6 @@ public class DBDescribe {
 		DefaultData[1]	= (byte) strLength;		
 		if(Size<DefaultData.length)
 			Size=DefaultData.length;
-//        if(value==null){
-//            DefaultData=new byte[2];
-//            return;
-//        }
-//        int stringLenth = value.length();
-//        int j = 0;
-//        int k;
-//        for (int n = 0; n < stringLenth; n++) {
-//            k = value.charAt(n);
-//            if ((k >= 1) && (k <= 127)) {
-//                j++;
-//            } else if (k > 2047) {
-//                j += 3;
-//            } else {
-//                j += 2;
-//            }
-//        }
-//        DefaultData = new byte[j * 2 + 2];
-//        DefaultData[0] = ((byte)(j >>> 8 & 0xFF));
-//        DefaultData[1] = ((byte)(j >>> 0 & 0xFF));
-//        int count=2;
-//        int i1 = 0;
-//        for (i1 = 0; i1 < stringLenth; i1++) {
-//            k = value.charAt(i1);
-//            if ((k < 1) || (k > 127)) {
-//                break;
-//            }
-//            DefaultData[(count++)] = ((byte) k);
-//        }
-//        while (i1 < stringLenth) {
-//            k = value.charAt(i1);
-//            if ((k >= 1) && (k <= 127)) {
-//                DefaultData[(count++)] = ((byte) k);
-//            } else if (k > 2047) {
-//                DefaultData[(count++)] = ((byte) (0xE0 | k >> 12 & 0xF));
-//                DefaultData[(count++)] = ((byte) (0x80 | k >> 6 & 0x3F));
-//                DefaultData[(count++)] = ((byte) (0x80 | k >> 0 & 0x3F));
-//            } else {
-//                DefaultData[(count++)] = ((byte) (0xC0 | k >> 6 & 0x1F));
-//                DefaultData[(count++)] = ((byte) (0x80 | k >> 0 & 0x3F));
-//            }
-//            i1++;
-//        }
     }
 	
 	public void writeMessage(MessageSending messageSending) {
@@ -155,52 +112,51 @@ public class DBDescribe {
 		DefaultData=messageReceiving.readByteArray();
 	}
 	
+	private byte[] readArrayWithLength() {
+    	int size=DefaultData.length-4;
+    	if(size==0)
+    		return null;
+    	byte[] arr=new byte[size];
+    	for(int i=0;i<size;i++)
+    		arr[i]=DefaultData[i+4];
+    	return arr;
+	}
+	
 	public Object getDefaultData() {
-        switch (Type) {
-            case DBDefine_DataType.BOOLEAN:return DefaultData[0]!=0;
-            
-            case DBDefine_DataType.BYTE:
-            case DBDefine_DataType.STATUS:
-            case DBDefine_DataType.PERMISSION:
-            case DBDefine_DataType.AVARTAR:
-            	return DefaultData[0];
-            
-            case DBDefine_DataType.SHORT:
-        		return toShort();
-            
-            case DBDefine_DataType.FLOAT:return Float.intBitsToFloat(toInt());
-            case DBDefine_DataType.IPV4:
-            case DBDefine_DataType.INTEGER:return toInt();
-            
-            case DBDefine_DataType.DOUBLE:Double.longBitsToDouble(toLong());
-            case DBDefine_DataType.USER_ID:
-            case DBDefine_DataType.TIMEMILI:
-            case DBDefine_DataType.LONG:return toLong();
-            
-            case DBDefine_DataType.LIST:
-            case DBDefine_DataType.ByteArray:
-            	int size=DefaultData.length-4;
-            	if(size==0)
-            		return null;
-            	byte[] arr=new byte[size];
-            	for(int i=0;i<size;i++)
-            		arr[i]=DefaultData[i+4];
-            	return arr;
-            
-            case DBDefine_DataType.STRING:
-            	if(DefaultData.length==2)
-            		return "";
-            	else {
-            		int _length=DefaultData.length-2;
-            		byte[] tmp=new byte[_length];
-            		for(short i=0;i<_length;i++)
-            			tmp[i]=DefaultData[i+2];
-            		return new String(tmp,StandardCharsets.UTF_8);
-            	}
-            	
-            case DBDefine_DataType.IPV6:return DefaultData;
-            default:return "TYPE_NULL("+Type+")";
-        }
+		if(0<Type && Type<10)
+			return DefaultData[0]!=0;
+		else if(9<Type && Type<20)
+			return DefaultData[0];
+		else if(19<Type && Type<40)
+			return toShort();
+		else if(39<Type && Type<60)
+			return toInt();
+		else if(59<Type && Type<80)
+			return Float.intBitsToFloat(toInt());
+		else if(79<Type && Type<90)
+			return toLong();
+		else if(89<Type && Type<100)
+			return Double.longBitsToDouble(toLong());
+		else if(Type==DBDefine_DataType.ByteArray)
+			return readArrayWithLength();
+		else if(Type==DBDefine_DataType.LIST)
+			return readArrayWithLength();
+		else if(Type==DBDefine_DataType.STRING) {
+        	if(DefaultData.length==2)
+        		return "";
+        	else {
+        		int _length=DefaultData.length-2;
+        		byte[] tmp=new byte[_length];
+        		for(short i=0;i<_length;i++)
+        			tmp[i]=DefaultData[i+2];
+        		return new String(tmp,StandardCharsets.UTF_8);
+        	}
+		}else if(Type==DBDefine_DataType.IPV6)
+			return DefaultData;
+		else {
+			System.err.println("Database error DBProcess_Describe → process(long offsetData, byte pperator, byte Type, Object object) " + DBDefine_DataType.getTypeName(Type));
+			return null;
+		}
     }
 	
 	private long toLong() {
