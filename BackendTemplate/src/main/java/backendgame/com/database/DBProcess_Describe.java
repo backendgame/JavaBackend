@@ -390,10 +390,7 @@ public class DBProcess_Describe {
 				maxSpace = describe.ColumnName.length();
 		if(maxSpace>20)
 			maxSpace=20;
-		
-		
 		System.out.printf("%"+(maxSpace+20)+"."+(maxSpace+20)+"s%12.12s%8.8s%12.12s   DefaultValue\n","Type","OffsetRow","ViewId","Permission");
-		
 		
 		String strType;
 		for(DBDescribe describe:list) {
