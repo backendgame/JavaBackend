@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
+import backendgame.com.database.operator.DBOperator_Boolean;
+import backendgame.com.database.operator.DBOperator_Float;
+import backendgame.com.database.operator.DBOperator_Integer;
+import backendgame.com.database.operator.DBOperator_Long;
 import backendgame.com.database.operator.DBOperator_Short;
+import backendgame.com.database.operator.DBOperator_String;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -129,8 +134,13 @@ class DBGame_UserDataTest {
         //////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////
         //Bắt đầu code Operators chỗ này
-        databaseUserData.processShort(16, 2, DBOperator_Short.Addition, (short) 20);
-        
+        databaseUserData.processBoolean(15, 0, DBOperator_Boolean.NOT, true);
+        databaseUserData.processByte(15, 1, DBOperator_Byte.AddPositive, (byte) 9);
+        databaseUserData.processDouble(15, 1, DBOperator_Byte.OR, (double) 23);
+        databaseUserData.processFloat(15, 1, DBOperator_Float.Modulus, 8F);
+        databaseUserData.processInt(15, 1, DBOperator_Integer.LeftShift, (int) 1);
+        databaseUserData.processLong(15, 1, DBOperator_Long.AND, 2L);
+        databaseUserData.processShort(15, 2, DBOperator_Short.Addition, (short) 20);
         //////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////
         

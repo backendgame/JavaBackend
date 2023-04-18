@@ -9,7 +9,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData=_rfData;
 	}
 	
-	public short process(short offset, byte operator, short value) throws IOException {
+	public short process(long offset, byte operator, short value) throws IOException {
 		switch (operator) {
 			case Addition:return add(offset, value);
 			case AddPositive:return addPositive(offset, value);
@@ -30,7 +30,7 @@ public class DBOperator_Short extends DBOperator{
 		return 0;
 	}
 
-	public short add(short offset, short value) throws IOException {
+	public short add(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		value = (short) (value + rfData.readShort());
 
@@ -38,7 +38,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeShort(value);
 		return value;
 	}
-	public short addPositive(short offset, short value) throws IOException {
+	public short addPositive(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue + value);
@@ -54,7 +54,7 @@ public class DBOperator_Short extends DBOperator{
 	}
 
 
-	public short add_InBound(short offset, short value) throws IOException {
+	public short add_InBound(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue + value);
@@ -69,7 +69,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeShort(result);
 		return result;
 	}
-	public short multiplication(short offset, short value) throws IOException {
+	public short multiplication(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue * value);
@@ -84,7 +84,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeShort(result);
 		return result;
 	}
-	public short division(short offset, short value) throws IOException {
+	public short division(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue / value);
@@ -99,7 +99,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeShort(result);
 		return result;
 	}
-	public short modulus(short offset, short value) throws IOException {
+	public short modulus(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue % value);
@@ -115,7 +115,7 @@ public class DBOperator_Short extends DBOperator{
 		return result;
 	}
 
-	public short and(short offset, short value) throws IOException {
+	public short and(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue & value);
@@ -130,7 +130,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeLong(result);
 		return result;
 	}
-	public short or(short offset, short value) throws IOException {
+	public short or(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue | value);
@@ -145,7 +145,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeLong(result);
 		return result;
 	}
-	public short not(short offset, short value) throws IOException {
+	public short not(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short result = (short) (~value);
 
@@ -159,7 +159,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeLong(result);
 		return result;
 	}
-	public short xor(short offset, short value) throws IOException {
+	public short xor(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue ^ value);
@@ -174,7 +174,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeLong(result);
 		return result;
 	}
-	public short nand(short offset, short value) throws IOException {
+	public short nand(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (~(oldValue & value));
@@ -189,7 +189,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeLong(result);
 		return result;
 	}
-	public short leftShift(short offset, short value) throws IOException {
+	public short leftShift(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue << value);
@@ -204,7 +204,7 @@ public class DBOperator_Short extends DBOperator{
 		rfData.writeLong(result);
 		return result;
 	}
-	public short rightShift(short offset, short value) throws IOException {
+	public short rightShift(long offset, short value) throws IOException {
 		rfData.seek(offset);
 		short oldValue = rfData.readShort();
 		short result = (short) (oldValue >> value);
