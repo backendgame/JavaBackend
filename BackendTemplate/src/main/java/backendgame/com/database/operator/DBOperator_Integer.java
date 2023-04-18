@@ -31,99 +31,99 @@ public class DBOperator_Integer extends DBOperator{
 
 	public int add(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		value = (int) (value + rfData.readByte());
+		value = (int) (value + rfData.readInt());
 
 		rfData.seek(offset);
-		rfData.writeDouble(value);
+		rfData.writeInt(value);
 		return value;
 	}
 	public int addPositive(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue + value);
 		if(result<0)
 			if(oldValue>0 && value>0)
-				result=Byte.MAX_VALUE;
+				result=Integer.MAX_VALUE;
 			else
 				result=0;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeInt(result);
 		return result;
 	}
 
 
 	public int add_InBound(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue + value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeInt(result);
 		return result;
 	}
 	public int multiplication(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue * value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeInt(result);
 		return result;
 	}
 	public int division(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue / value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeInt(result);
 		return result;
 	}
 	public int modulus(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue % value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeInt(result);
 		return result;
 	}
 
 	public int and(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue & value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);
@@ -131,14 +131,14 @@ public class DBOperator_Integer extends DBOperator{
 	}
 	public int or(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue | value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);
@@ -149,10 +149,10 @@ public class DBOperator_Integer extends DBOperator{
 		int result = (int) (~value);
 
 		if(value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);
@@ -160,14 +160,14 @@ public class DBOperator_Integer extends DBOperator{
 	}
 	public int xor(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue ^ value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);
@@ -175,14 +175,14 @@ public class DBOperator_Integer extends DBOperator{
 	}
 	public int nand(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (~(oldValue & value));
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);
@@ -190,14 +190,14 @@ public class DBOperator_Integer extends DBOperator{
 	}
 	public int leftShift(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue << value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);
@@ -205,14 +205,14 @@ public class DBOperator_Integer extends DBOperator{
 	}
 	public int rightShift(long offset, int value) throws IOException {
 		rfData.seek(offset);
-		int oldValue = rfData.readByte();
+		int oldValue = rfData.readInt();
 		int result = (int) (oldValue >> value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Integer.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Integer.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeByte(result);

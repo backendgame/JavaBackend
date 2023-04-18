@@ -25,7 +25,7 @@ public class DBOperator_Double extends DBOperator{
 
 	public double add(long offset, double value) throws IOException {
 		rfData.seek(offset);
-		value = (double) (value + rfData.readByte());
+		value = (double) (value + rfData.readDouble());
 
 		rfData.seek(offset);
 		rfData.writeDouble(value);
@@ -33,11 +33,11 @@ public class DBOperator_Double extends DBOperator{
 	}
 	public double addPositive(long offset, double value) throws IOException {
 		rfData.seek(offset);
-		double oldValue = rfData.readByte();
+		double oldValue = rfData.readDouble();
 		double result = (double) (oldValue + value);
 		if(result<0)
 			if(oldValue>0 && value>0)
-				result=Byte.MAX_VALUE;
+				result=Double.MAX_VALUE;
 			else
 				result=0;
 
@@ -49,14 +49,14 @@ public class DBOperator_Double extends DBOperator{
 
 	public double add_InBound(long offset, double value) throws IOException {
 		rfData.seek(offset);
-		double oldValue = rfData.readByte();
+		double oldValue = rfData.readDouble();
 		double result = (double) (oldValue + value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Double.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Double.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeDouble(result);
@@ -64,14 +64,14 @@ public class DBOperator_Double extends DBOperator{
 	}
 	public double multiplication(long offset, double value) throws IOException {
 		rfData.seek(offset);
-		double oldValue = rfData.readByte();
+		double oldValue = rfData.readDouble();
 		double result = (double) (oldValue * value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Double.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Double.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeDouble(result);
@@ -79,14 +79,14 @@ public class DBOperator_Double extends DBOperator{
 	}
 	public double division(long offset, double value) throws IOException {
 		rfData.seek(offset);
-		double oldValue = rfData.readByte();
+		double oldValue = rfData.readDouble();
 		double result = (double) (oldValue / value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Double.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Double.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeDouble(result);
@@ -94,14 +94,14 @@ public class DBOperator_Double extends DBOperator{
 	}
 	public double modulus(long offset, double value) throws IOException {
 		rfData.seek(offset);
-		double oldValue = rfData.readByte();
+		double oldValue = rfData.readDouble();
 		double result = (double) (oldValue % value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Double.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Double.MIN_VALUE;
 
 		rfData.seek(offset);
 		rfData.writeDouble(result);

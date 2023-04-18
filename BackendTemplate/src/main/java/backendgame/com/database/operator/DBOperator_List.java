@@ -17,11 +17,11 @@ public class DBOperator_List extends DBOperator{
 		int length = rfData.readInt();
 		if(length!=data.length)
 			return false;
-		
+
 		for(int i=0;i<length;i++)
 			if(data[i]!=rfData.readByte())
 				return false;
-		
+
 		return true;
 	}
 

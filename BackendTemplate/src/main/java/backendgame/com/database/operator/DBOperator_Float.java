@@ -24,86 +24,86 @@ public class DBOperator_Float extends DBOperator{
 
 	public float add(long offset, float value) throws IOException {
 		rfData.seek(offset);
-		value = (float) (value + rfData.readByte());
+		value = (float) (value + rfData.readFloat());
 
 		rfData.seek(offset);
-		rfData.writeDouble(value);
+		rfData.writeFloat(value);
 		return value;
 	}
 	public float addPositive(long offset, float value) throws IOException {
 		rfData.seek(offset);
-		float oldValue = rfData.readByte();
+		float oldValue = rfData.readFloat();
 		float result = (float) (oldValue + value);
 		if(result<0)
 			if(oldValue>0 && value>0)
-				result=Byte.MAX_VALUE;
+				result=Float.MAX_VALUE;
 			else
 				result=0;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeFloat(result);
 		return result;
 	}
 
 
 	public float add_InBound(long offset, float value) throws IOException {
 		rfData.seek(offset);
-		float oldValue = rfData.readByte();
+		float oldValue = rfData.readFloat();
 		float result = (float) (oldValue + value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Float.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Float.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeFloat(result);
 		return result;
 	}
 	public float multiplication(long offset, float value) throws IOException {
 		rfData.seek(offset);
-		float oldValue = rfData.readByte();
+		float oldValue = rfData.readFloat();
 		float result = (float) (oldValue * value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Float.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Float.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeFloat(result);
 		return result;
 	}
 	public float division(long offset, float value) throws IOException {
 		rfData.seek(offset);
-		float oldValue = rfData.readByte();
+		float oldValue = rfData.readFloat();
 		float result = (float) (oldValue / value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Float.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Float.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeFloat(result);
 		return result;
 	}
 	public float modulus(long offset, float value) throws IOException {
 		rfData.seek(offset);
-		float oldValue = rfData.readByte();
+		float oldValue = rfData.readFloat();
 		float result = (float) (oldValue % value);
 
 		if(oldValue>0 && value>0 && result<=0)
-			result=Byte.MAX_VALUE;
+			result=Float.MAX_VALUE;
 
 		if(oldValue<0 && value<0 && result>=0)
-			result=Byte.MIN_VALUE;
+			result=Float.MIN_VALUE;
 
 		rfData.seek(offset);
-		rfData.writeDouble(result);
+		rfData.writeFloat(result);
 		return result;
 	}
 }
