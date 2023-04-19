@@ -10,8 +10,8 @@ import backendgame.com.core.MessageSending;
 import backendgame.com.core.TimeManager;
 import backendgame.com.database.DBBase2Primary_Indexing;
 import backendgame.com.database.DBDescribe;
-import begame.config.PATH;
 import database_game.DatabaseId;
+import server.config.PATH;
 
 public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserData thường chỉ dùng đến UserId = RowId của UserData
 	

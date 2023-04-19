@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.core.StringRandom;
 import backendgame.com.database.DBDescribe;
-import begame.config.PATH;
 import database_game.DatabaseId;
+import server.config.PATH;
 
 class BaseDatabaseGameTest {
 	private long timeBegin;

@@ -12,7 +12,7 @@ import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.database.DBDescribe;
 import backendgame.com.database.operator.DBOperator_Byte;
 import backendgame.com.database.operator.DBOperator_Short;
-import begame.config.PATH;
+import server.config.PATH;
 
 class DBGame_UserDataTest {
     private long timeBegin;

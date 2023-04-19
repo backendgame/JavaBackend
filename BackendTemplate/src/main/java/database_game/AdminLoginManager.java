@@ -8,9 +8,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import begame.config.PATH;
+import server.config.PATH;
 
 public class AdminLoginManager {
 	private AdminLoginManager() {}
@@ -27,7 +29,7 @@ public class AdminLoginManager {
 	}
 	public void writeAdminFile(Map<?,?> map) {
 		try {
-			Files.writeString(Paths.get(PATH.DATABASE_FOLDER + "/AdminAccount.json"), new JSONObject(map).toString(), StandardOpenOption.CREATE,StandardOpenOption.TRUNCATE_EXISTING);
+			Files.writeString(Paths.get(PATH.DATABASE_FOLDER + "/AdminAccount.json"), new ObjectMapper().valueToTree(map).toPrettyString(), StandardOpenOption.CREATE,StandardOpenOption.TRUNCATE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +56,8 @@ public class AdminLoginManager {
 	
 	public Map<String, Object> loadAdminAccount(){
 		try {
-			return new JSONObject(readAdminFile()).toMap();
+			JsonNode json = new ObjectMapper().readTree(readAdminFile());
+			return new ObjectMapper().convertValue(json, new TypeReference<Map<String, Object>>(){});
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

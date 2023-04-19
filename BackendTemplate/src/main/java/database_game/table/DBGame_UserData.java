@@ -15,7 +15,7 @@ import backendgame.com.core.MessageSending;
 import backendgame.com.database.DBDescribe;
 import backendgame.com.database.DBProcess_Describe;
 import backendgame.com.database.entity.DB_WriteDatabase;
-import begame.config.PATH;
+import server.config.PATH;
 
 public class DBGame_UserData extends BaseDatabaseGame{//lengthData = des.getDataLength()+8
 	public static final long OFF=123;

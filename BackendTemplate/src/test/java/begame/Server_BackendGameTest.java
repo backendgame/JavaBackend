@@ -25,7 +25,7 @@ class Server_BackendGameTest {
 		}
 		
 		AdminLoginManager.gI().setAccount("aaa", "123");
-		AdminLoginManager.gI().deleteAccount("aaa");
+//		AdminLoginManager.gI().deleteAccount("aaa");
 		System.out.println(AdminLoginManager.gI().readAdminFile());
 	}
 
