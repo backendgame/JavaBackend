@@ -34,10 +34,10 @@ class BaseDatabaseGameTest {
 			databaseAccount=new DBGame_AccountLogin(k);
 			databaseUserData=new DBGame_UserData(k);
 			
-//			DBDescribe[] listRandom = new DBDescribe[10];
-//			for(int i=0;i<listRandom.length;i++)
-//				listRandom[i]=randomDescribe();
-//			databaseUserData.setDescribe(listRandom);
+			DBDescribe[] listRandom = new DBDescribe[10];
+			for(int i=0;i<listRandom.length;i++)
+				listRandom[i]=randomDescribe();
+			databaseUserData.setDescribe(listRandom);
 			
 			randomAccount(50 + random.nextInt(10));
 			databaseAccount.insertAccount("Dương Đức Trí", DatabaseId.Device, password, databaseUserData);
@@ -87,10 +87,13 @@ class BaseDatabaseGameTest {
 			else
 				System.out.println("Process ("+k+"): "+databaseAccount.countRow());
 			
+			System.out.println("============>"+databaseAccount.querryUserId("Dương Đức Trí", DatabaseId.Apple));
+			databaseAccount.traceInfo("Dương Đức Trí");
+			
 			databaseAccount.close();
 			databaseUserData.close();
-//			databaseAccount.deleteFile();
-//			databaseUserData.deleteFile();
+			databaseAccount.deleteFile();
+			databaseUserData.deleteFile();
 		}
 		
 		

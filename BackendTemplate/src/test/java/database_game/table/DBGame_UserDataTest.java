@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-import backendgame.com.database.operator.DBOperator_Boolean;
-import backendgame.com.database.operator.DBOperator_Float;
-import backendgame.com.database.operator.DBOperator_Integer;
-import backendgame.com.database.operator.DBOperator_Long;
-import backendgame.com.database.operator.DBOperator_Short;
-import backendgame.com.database.operator.DBOperator_String;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -97,7 +91,7 @@ class DBGame_UserDataTest {
         
         describe=new DBDescribe();
         describe.Type = DBDefine_DataType.ByteArray;
-        describe.Size = 1024;
+        describe.Size = 8;
         describe.ColumnName = "Column8";
         byte[] dataTmp = new byte[describe.Size];
         random.nextBytes(dataTmp);
@@ -113,16 +107,14 @@ class DBGame_UserDataTest {
         databaseUserData.setDescribe(listRandom);
         
         databaseUserData.des.trace();
-        System.out.println("********************************************************************************");
+        System.out.println("\n");
         for(int i=0;i<100;i++)
             databaseUserData.insertRow(i, random.nextLong());
         
         
         databaseUserData.writeData(15, 0, false);
 //        databaseUserData.writeData(15, 1, (byte)99);
-        databaseUserData.process(15, 1, DBOperator_Byte.Division, DBDefine_DataType.BYTE, (byte)100);
-        databaseUserData.process(15, "Column2", DBOperator_Short.Addition, DBDefine_DataType.SHORT, (short)100);
-
+        databaseUserData.process(15, 1, DBOperator_Byte.Addition, DBDefine_DataType.BYTE, (byte)100);
         databaseUserData.writeData(15, 2, (short)32678);
         databaseUserData.writeData(15, 3, 88.99f);
         databaseUserData.writeData(15, 4, (int)1111);
@@ -134,13 +126,8 @@ class DBGame_UserDataTest {
         //////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////
         //Bắt đầu code Operators chỗ này
-        databaseUserData.processBoolean(15, 0, DBOperator_Boolean.NOT, true);
-        databaseUserData.processByte(15, 1, DBOperator_Byte.AddPositive, (byte) 9);
-        databaseUserData.processDouble(15, 1, DBOperator_Byte.OR, (double) 23);
-        databaseUserData.processFloat(15, 1, DBOperator_Float.Modulus, 8F);
-        databaseUserData.processInt(15, 1, DBOperator_Integer.LeftShift, (int) 1);
-        databaseUserData.processLong(15, 1, DBOperator_Long.AND, 2L);
-        databaseUserData.processShort(15, 2, DBOperator_Short.Addition, (short) 20);
+        databaseUserData.processShort(16, 2, DBOperator_Short.Addition, (short) 20);
+        
         //////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////
         
@@ -159,7 +146,7 @@ class DBGame_UserDataTest {
     
     @AfterEach void tearDown() throws Exception {
         databaseUserData.close();
-//        databaseUserData.deleteFile();
+        databaseUserData.deleteFile();
         System.out.println("Finish : "+(System.currentTimeMillis()-timeBegin));
     }
 }

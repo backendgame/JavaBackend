@@ -53,15 +53,22 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 	public long getOffsetByIndex(long id) throws IOException {rfBTree.seek(id*8);return rfBTree.readLong();}
 	
 	
-	public long querryOffset(long rowId) {return 0;}
-	public long[] querryOffset(long[] rowId) {return null;}
-	public long querryRowId(String credential, byte databaseId) throws IOException {
+	
+	public long querryOffset(String credential, byte databaseId) throws IOException {
 		initBtree();
-		if(btree.querryOffset(credential, databaseId)!=-1)
+		return btree.querryOffset(credential, databaseId);
+	}
+	
+	public long[] querryOffset(String credential) throws IOException {
+		initBtree();
+		return btree.querryOffset(credential);
+	}
+	public long querryUserId(String credential, byte databaseId) throws IOException {
+		initBtree();
+		if (btree.querryOffset(credential, databaseId) != -1)
 			return rfData.readLong();
 		return -1;
 	}
-
 	public long[] querryUserId(String credential) throws IOException {
 		initBtree();
 		long[] listOffset = btree.querryOffset(credential);
@@ -69,7 +76,7 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 			int numberOffset = listOffset.length;
 			for(int i=0;i<numberOffset;i++) {
 				rfData.seek(listOffset[i]);
-				rfData.readUTF();
+				rfData.readUTF();//Credential
 				if(rfData.readBoolean())
 					rfData.skipBytes(1);
 				listOffset[i] = rfData.readLong();
@@ -83,10 +90,10 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 		long offsetInsert = btree.insertNewRow(credential, databaseId);
 		if(offsetInsert!=-1) {
 			long newUserId = databaseUserData.countRow();
-			rfData.writeLong(newUserId);
+			rfData.writeLong(newUserId);//UserId
 		    if(databaseId==DatabaseId.SystemAccount) 
 		        rfData.writeUTF(password);
-			rfData.writeByte(0);//AccountStatus
+			rfData.writeByte(0);//AccountStatus < 0 : không vào được game
 			rfData.writeLong(System.currentTimeMillis());//TimeCreateAccount
 			databaseUserData.insertRow(newUserId, offsetInsert);
 			return newUserId;
@@ -94,15 +101,9 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 		    return -1;
 	}
 
-	public long querryOffset(String credential, byte databaseId) throws IOException {
-		initBtree();
-		return btree.querryOffset(credential, databaseId);
-	}
+
 	
-	public long[] querryOffset(String credential) throws IOException {
-		initBtree();
-		return btree.querryOffset(credential);
-	}
+
 	public void writeInfoByOffset(MessageSending messageSending, long credentialOffset) throws IOException {
 		rfData.seek(credentialOffset);
 		messageSending.writeString(rfData.readUTF());//Credential
@@ -112,22 +113,57 @@ public class DBGame_AccountLogin extends BaseDatabaseGame{//Cập nhật UserDat
 		messageSending.writeLong(rfData.readLong());
 		if(databaseId==DatabaseId.SystemAccount)
 		    messageSending.writeString(rfData.readUTF());
-		messageSending.writeByte(rfData.readByte());//AccountStatus
+		messageSending.writeByte(rfData.readByte());//AccountStatus < 0 : không vào được game
 		messageSending.writeLong(rfData.readLong());//TimeCreateAccount
 	}
 	
 	public void updateStatus(long offset, byte status) throws IOException {
 		rfData.seek(offset);
 		rfData.readUTF();
-		if(rfData.readBoolean()) {
-			byte databaseId = rfData.readByte();
-		    if(databaseId==DatabaseId.SystemAccount)
-				rfData.readUTF();
-		}
-		rfData.readLong();
+		byte databaseId = rfData.readBoolean()?rfData.readByte():-1;
+		rfData.readLong();//UserId
+		if(databaseId==DatabaseId.SystemAccount)
+			rfData.readUTF();
 		rfData.writeByte(status);
 	}
 	
+	
+	public void traceInfo(String credential) throws IOException {
+		initBtree();
+		long[] listOffset = btree.querryOffset(credential);
+		if(listOffset==null || listOffset.length==0)
+			return;
+		
+		int maxCre = "Credential".length();
+		for(long offset:listOffset) {
+			rfData.seek(offset);
+			credential = rfData.readUTF();
+			if(credential.length()>maxCre) {
+				maxCre = credential.length();
+				if(maxCre>20) {
+					maxCre=20;
+					break;
+				}
+			}
+		}
+		
+		System.out.printf("%"+maxCre+"."+maxCre+"s%12.12s%15.15s%12.12s	TimeCreate\n","Credential", "DatabaseId","UserId","Status");
+		for(long offset:listOffset) {
+			rfData.seek(offset);
+			credential = rfData.readUTF();
+			byte databaseId = rfData.readBoolean()?rfData.readByte():-1;
+			long userId = rfData.readLong();
+			if(databaseId==DatabaseId.SystemAccount)
+				rfData.readUTF();
+			byte status = rfData.readByte();
+			long timeCreate = rfData.readLong();
+			
+			if(credential.length()>20)
+				System.out.print(credential.substring(0, 17)+"...");
+			
+			System.out.printf("%"+maxCre+"."+maxCre+"s%12.12s%15.15s%12.12s	"+TimeManager.gI().getStringTime(timeCreate)+"\n",credential,databaseId,userId,status);
+		}
+	}
 	public void traceInfo(String credential, DBGame_UserData databaseUserData) throws IOException {
 		long[] listUserId = querryUserId(credential);
 		if(listUserId==null)

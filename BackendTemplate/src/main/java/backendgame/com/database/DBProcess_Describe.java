@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 
+import backendgame.com.core.BGUtility;
 import backendgame.com.core.DBDefine_DataType;
 import backendgame.com.database.entity.DB_ReadDatabase;
 import backendgame.com.database.entity.DB_WriteDatabase;
@@ -377,12 +378,15 @@ public class DBProcess_Describe {
 	
 	
 	public void trace() throws IOException {
-		System.out.println("File size : "+rfData.length());
-		System.out.println("OffsetDescribe : "+offsetDescribe);
-		System.out.println("DatalLength : "+getDataLength());
-		System.out.println("OffsetBeginData : "+getOffset_BeginData());
-		System.out.println("OffsetDefaultData : "+getOffset_DefaultData());
-		System.out.println("-----------------------------------------------------------------");
+		
+		System.out.println("  |================================Describe Database================================");
+		System.out.println("  |File size : "+BGUtility.getMemory(rfData.length()));
+		System.out.println("  |OffsetDescribe : "+offsetDescribe);
+		System.out.println("  |DatalLength : "+getDataLength());
+		System.out.println("  |OffsetBeginData : "+getOffset_BeginData());
+		System.out.println("  |OffsetDefaultData : "+getOffset_DefaultData());
+		System.out.println("  |---------------------------------------------------------------------------------");
+		
 		DBDescribe[] list = readDescribes();
 		int maxSpace = 0;
 		for(DBDescribe describe:list)
@@ -390,21 +394,24 @@ public class DBProcess_Describe {
 				maxSpace = describe.ColumnName.length();
 		if(maxSpace>20)
 			maxSpace=20;
-		System.out.printf("%"+(maxSpace+20)+"."+(maxSpace+20)+"s%12.12s%8.8s%12.12s   DefaultValue\n","Type","OffsetRow","ViewId","Permission");
+		
+		System.out.printf("  |%"+(maxSpace+20)+"."+(maxSpace+20)+"s%12.12s%8.8s%12.12s   DefaultValue\n","Type","OffsetRow","ViewId","Permission");
 		
 		String strType;
 		for(DBDescribe describe:list) {
 			if(describe.ColumnName.length()>maxSpace) {
-				System.out.print(describe.ColumnName.substring(0, maxSpace-3)+"...");
+				System.out.print("  |"+describe.ColumnName.substring(0, maxSpace-3)+"...");
 			}else {
-				System.out.print(describe.ColumnName);
+				System.out.print("  |"+describe.ColumnName);
 				for(int i=describe.ColumnName.length();i<maxSpace;i++)
 					System.out.print(" ");
 			}
 			
 			strType = DBDefine_DataType.getTypeName(describe.Type);
-			if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST || describe.Type==DBDefine_DataType.STRING)
-				strType = strType+"("+describe.Size+")";
+			if(describe.Type==DBDefine_DataType.ByteArray || describe.Type==DBDefine_DataType.LIST)
+				strType = strType+"("+(describe.Size-4)+")";//4 byte : length
+			else if(describe.Type==DBDefine_DataType.STRING)
+				strType = strType+"("+(describe.Size-2)+")";//2 byte : length
 			
 			if(describe.DefaultData==null)
 				System.out.printf("%20.20s%12.12s%8.8s%12.12s   Null\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
@@ -414,5 +421,6 @@ public class DBProcess_Describe {
 				else
 					System.out.printf("%20.20s%12.12s%8.8s%12.12s   "+describe.getDefaultData()+"\n",strType,describe.OffsetRow,describe.ViewId,describe.Permission);
 		}
+		System.out.println("  |=================================================================================");
 	}
 }
